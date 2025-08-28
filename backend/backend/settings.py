@@ -1,6 +1,8 @@
 from pathlib import Path
 from dotenv import dotenv_values
 from datetime import timedelta
+from celery.schedules import crontab
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -192,7 +194,8 @@ CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_BEAT_SCHEDULE = {
     "my-scheduled-task": {
         "task": "fish_regions.tasks.update_regions",
-        "schedule": timedelta(seconds=11000),
+        # runs every third hour and 5 minutes(00:05, 03:05, 06:05...)
+        "schedule": crontab(minute=5, hour="0,3,6,9,12,15,18,21"),
     },
 }
 
