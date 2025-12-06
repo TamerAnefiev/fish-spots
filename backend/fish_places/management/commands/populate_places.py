@@ -1,314 +1,72 @@
+from pathlib import Path
+import json
+from typing import TypedDict, Literal
 from django.core.management.base import BaseCommand
+from django.core.files import File
+from django.contrib.auth import get_user_model
 from fish_places.models import Place
+
+class PlaceData(TypedDict):
+    place: str
+    bg_name: str
+    description: str
+    image_url: str
+    longitude: float | str
+    latitude: float | str
+    region: Literal["varna", "burgas"]
+    max_wind_speed: int
+    bad_wind_directions: str
 
 class Command(BaseCommand):
     help = 'Populating the DB with fish places'
 
     def handle(self, *args, **kwargs):
-        places_info = {
-            "tyulenovo": {
-                "bg_name": "Тюленово",
-                "description": "На това специфично място можете да практикувате риболов на зарган, а в околията и ако терена позволява също така сафрид и чернокоп.",
-                "image_url": "https://i.ibb.co/NWb307X/tyulenovo.jpg",
-                "longitude": "43.5159807",
-                "latitude": "28.5986176",
-                "region": "north",
-                "max_wind_speed": 5,
-                "bad_wind_directions": "Изток, Югоизток, Североизток",
-            },
-            "kranevo": {
-                "bg_name": "Кранево",
-                "description": "Изберете си една от четирите буни и може да започнете да търсите сафрид и зарган. Имайте предвид ,че някои от буните са леко потънали и достъпа може да бъде невъзможен.",
-                "image_url": "https://i.ibb.co/gDYHQ7v/kranevo.jpg",
-                "longitude": "43.3230436",
-                "latitude": "28.0664616",
-                "region": "north",
-                "max_wind_speed": 5,
-                "bad_wind_directions": "Изток, Югоизток, Североизток",
-            },
-            "panorama": {
-                "bg_name": "Панорама",
-                "description": "На това място можете да практикувате риболов на зарган, сафрид и чернокоп.",
-                "image_url": "https://i.ibb.co/rKPh9P6/panorama.jpg",
-                "longitude": "43.3017312",
-                "latitude": "28.0535553",
-                "region": "north",
-                "max_wind_speed": 5,
-                "bad_wind_directions": "Юг, Северозапад",
-            },
-            "noi": {
-                "bg_name": "Ной",
-                "description": "Тук можете да практикувате риболов на зарган, сафрид и чернокоп. Също така от вътрешната страна на буната можете да пробвате и за илария на дъно.",
-                "image_url": "https://i.ibb.co/Xj6TBJx/noi.jpg",
-                "longitude": "43.2485368",
-                "latitude": "28.0304259",
-                "region": "north",
-                "max_wind_speed": 5,
-                "bad_wind_directions": "Североизток, Изток, Юг, Югоизток",
-            },
-            "slanchev-den": {
-                "bg_name": "Слънчев ден",
-                "description": "На тази буна в близост до Ной, можете да хващате сафрид и зарган. Застава се на левия рог, понеже там е по-дълбоко. Зимата можете да пробвате за зарган във вътрешността на буната.",
-                "image_url": "https://i.ibb.co/XZbbSgD/slanchev-den.jpg",
-                "longitude": "43.2446327",
-                "latitude": "28.0251074",
-                "region": "north",
-                "max_wind_speed": 5,
-                "bad_wind_directions": "Североизток, Изток, Юг, Югоизток",
-            },
-            "panelite": {
-                "bg_name": "Панелите",
-                "description": "Тази буна е доста известна с риболова на зарган също така и чернокоп когато му е сезона. Лятото е трудно да намерите място за паркиране и също така е добре да си носите гумени ботуши, понеже буната е ниска и залива.",
-                "image_url": "https://i.ibb.co/1Xx8p9P/panelite.jpg",
-                "longitude": "43.2254081",
-                "latitude": "28.0145879",
-                "region": "north",
-                "max_wind_speed": 4,
-                "bad_wind_directions": "Североизток, Изток, Юг, Югоизток",
-            },
-            "trakata": {
-                "bg_name": "Траката",
-                "description": "На десния ъгъл на тази буна можете да практикувате риболов на зарган и сафрид.",
-                "image_url": "https://i.ibb.co/ynnDwbB/trakata.jpg",
-                "longitude": "43.2175716",
-                "latitude": "27.9804242",
-                "region": "north",
-                "max_wind_speed": 5,
-                "bad_wind_directions": "Юг, Югоизток, Югозапад, Запад",
-            },
-            "buna-1": {
-                "bg_name": "Първа буна",
-                "description": "На първа буна на десния рог може да търсите зарган.",
-                "image_url": "https://i.ibb.co/xqtWB6m/buna-1.jpg",
-                "longitude": "43.204669",
-                "latitude": "27.9335551",
-                "region": "north",
-                "max_wind_speed": 4,
-                "bad_wind_directions": "Изток, Юг, Югоизток, Югозапад, Запад"
-            },
-            "buna-4": {
-                "bg_name": "Четвърта буна",
-                "description": "Тук можете да пробвате за зарган и за илария на дъно.",
-                "image_url": "https://i.ibb.co/G0FtXm0/buna-4.jpg",
-                "longitude": "43.211459",
-                "latitude": "27.9572982",
-                "region": "north",
-                "max_wind_speed": 4,
-                "bad_wind_directions": "Юг, Югоизток, Запад, Югозапад",
-            },
-            "valnolom": {
-                "bg_name": "Вълнолома",
-                "description": "На това място можете да хващате почти всичко. Доста често се търси сафрид, зарган и чернокоп. Много добро място за риболов на кая. Възможно е в бъдеще да се сложат тетраподи и риболова да бъде невъзможен.",
-                "image_url": "https://i.ibb.co/KxgWRh1/valnolom.jpg",
-                "longitude": "43.1884918",
-                "latitude": "27.921919",
-                "region": "north",
-                "max_wind_speed": 4,
-                "bad_wind_directions": "Североизток, Изток, Юг, Югоизток",
-            },
-            "morska-gara-varna": {
-                "bg_name": "Морска гара",
-                "description": "На морска гара Варна можете да хващате сафрид, карагьоз, хамсия и др. Мястото е удобно, но ако имате кола си пригответе парички за синя зона/паркинг.",
-                "image_url": "https://i.ibb.co/tHdx9Hj/morska-gara-varna.jpg",
-                "longitude": "43.1937287",
-                "latitude": "27.9203311",
-                "region": "north",
-                "max_wind_speed": 5,
-                "bad_wind_directions": "Запад, Юг, Югозапад, Северозапад",
-            },
-            "pod-mosta": {
-                "bg_name": "Под моста",
-                "description": "Под моста е доста тясно място и трябва да внимавате да не се закачите с рибарите от другия бряг. Можете да хванете чернокоп, сафрид, хамсия и най-вече карагьоз. Носете си тежки олова и внимавайте за преминаващи лодки.",
-                "image_url": "https://i.ibb.co/31bwZdY/pod-mosta.jpg",
-                "longitude": "43.1901971",
-                "latitude": "27.8851298",
-                "region": "north",
-                "max_wind_speed": 7,
-                "bad_wind_directions": "Северозапад, Югоизток",
-            },
-            "jelezniq-most": {
-                "bg_name": "Железният мост",
-                "description": "Легендарният железен мост. На това място можете да хванете сафрид, хамсия и карагьоз. Внимавайте за преминаващи лодки.",
-                "image_url": "https://i.ibb.co/y5J083M/jelezniq-most.jpg",
-                "longitude": "43.195383",
-                "latitude": "27.8953597",
-                "region": "north",
-                "max_wind_speed": 9,
-                "bad_wind_directions": "Северозапад, Югоизток",
-            },
-            "asparuhovo-buna": {
-                "bg_name": "Аспарухово-буната",
-                "description": "На тази буна можете да хванете зарган, илария и чернокопи ако е сезон.",
-                "image_url": "https://i.ibb.co/yqHZ5JH/asparuhovo-bunata.jpg",
-                "longitude": "43.1816372",
-                "latitude": "27.9130221",
-                "region": "north",
-                "max_wind_speed": 5,
-                "bad_wind_directions": "Север, Запад, Изток, Североизток, Северозапад",
-            },
-            "morska-gara-burgas": {
-                "bg_name": "Морска гара",
-                "description": "На морска гара можете да хванете сафрид, хамсия и карагьоз.",
-                "image_url": "https://i.ibb.co/hf4JWzw/morska-gara-burgas.jpg",
-                "longitude": "42.4854055",
-                "latitude": "27.482281",
-                "region": "south",
-                "max_wind_speed": 5,
-                "bad_wind_directions": "Запад, Северозапад, Югозапад, Север, Юг",
-            },
-            "nos-akra": {
-                "bg_name": "Нос Акра",
-                "description": "На нос Акра можете да хванете зарган. Оставяте си колата назад на паркинга и се върви пеша до мястото.",
-                "image_url": "https://i.ibb.co/gyWssBg/nos-akra.jpg",
-                "longitude": "42.459038",
-                "latitude": "27.6289487",
-                "region": "south",
-                "max_wind_speed": 3,
-                "bad_wind_directions": "Север, Североизток, Изток",
-            },
-            "vilata-na-plevneliev": {
-                "bg_name": "Черноморец-Вилата",
-                "description": "Мястото е до вилата на Плевнелиев. Можете да стигнете с кола и да си изберете място по скалите. Най-често там се търси зарган.",
-                "image_url": "https://i.ibb.co/Fxs77zK/chernomorets-vilata.jpg",
-                "longitude": "42.4459614",
-                "latitude": "27.6499072",
-                "region": "south",
-                "max_wind_speed": 3,
-                "bad_wind_directions": "Изток, Североизток, Югоизток",
-            },
-            "nos-chervenka": {
-                "bg_name": "Нос Червенка",
-                "description": "На този нос най-вече можете да срещнете риболовци които търсят зарган. Няма пряк достъп с кола.",
-                "image_url": "https://i.ibb.co/rGXX3T2/nos-chervenka.jpg",
-                "longitude": "42.4303029",
-                "latitude": "27.652832",
-                "region": "south",
-                "max_wind_speed": 3,
-                "bad_wind_directions": "Изток, Юг, Югоизток",
-            },
-            "germankata": {
-                "bg_name": "Германката",
-                "description": "На местност Германката можете да практикувате риболов на сафрид и зарган. Скалите са опасни и трябва да внимавате. Върви се малко докато стигнете до риболовното място.",
-                "image_url": "https://i.ibb.co/SXZ2L7j/germankata.jpg",
-                "longitude": "42.40488",
-                "latitude": "27.729592",
-                "region": "south",
-                "max_wind_speed": 4,
-                "bad_wind_directions": "Изток, Североизток, Югоизток",
-            },
-            "nos-agalina": {
-                "bg_name": "Нос Агалина",
-                "description": "На този красив нос можете да ловите сафрид, зарган и чернокоп на нощен риболов. Можете да пробвате за чернокоп в активен за него сезон. Внимавайте за хлъзгави скали.",
-                "image_url": "https://i.ibb.co/pwYp6sZ/nos-agalina.jpg",
-                "longitude": "42.3787155",
-                "latitude": "27.7243115",
-                "region": "south",
-                "max_wind_speed": 4,
-                "bad_wind_directions": "Изток, Североизток, Югоизток, Юг",
-            },
-            "maslen-nos": {
-                "bg_name": "Маслен нос",
-                "description": "На този дащен нос можете да ловувате заргани и сафриди.",
-                "image_url": "https://i.ibb.co/kh2XXPq/maslen-nos.jpg",
-                "longitude": "42.3071087",
-                "latitude": "27.7932382",
-                "region": "south",
-                "max_wind_speed": 5,
-                "bad_wind_directions": "Изток, Североизток, Югоизток, Юг",
-            },
-             "mirius": {
-                "bg_name": "Мириус",
-                "description": "По тази ивица можете да търсите заргани и чернокопи. Разбира се, сезона трябва да бъде правилния за да има успехи.",
-                "image_url": "https://i.ibb.co/tpy7qXf/mirius.jpg",
-                "longitude": "42.3036143",
-                "latitude": "27.7800759",
-                "region": "south",
-                "max_wind_speed": 4,
-                "bad_wind_directions": "Изток, Североизток, Югоизток, Юг, Югозапад",
-            },
-            "plaj-perla": {
-                "bg_name": "Перла",
-                "description": "На тези две буни можете да практикувате риболов на зарган и чернокоп ако рибата е в сезон.",
-                "image_url": "https://i.ibb.co/GtjqHwF/plaj-perla.jpg",
-                "longitude": "42.2881532",
-                "latitude": "27.7573407",
-                "region": "south",
-                "max_wind_speed": 4,
-                "bad_wind_directions": "Изток, Юг, Югоизток",
-            },
-            "primorsko-kraibrejna": {
-                "bg_name": "Приморско-алея",
-                "description": "На крайбрежната алея в Приморско можете да ловите лефер в активния сезон. Възможно е и улов на зарган.",
-                "image_url": "https://i.ibb.co/kmPqZZg/primorsko-kraibrejna.jpg",
-                "longitude": "42.2659478",
-                "latitude": "27.7666443",
-                "region": "south",
-                "max_wind_speed": 4,
-                "bad_wind_directions": "Изток, Югоизток",
-            },
-            "primorsko-pristanishte": {
-                "bg_name": "Приморско-пристанище",
-                "description": "На пристанището в Приморско можете да имате успех с улов на морски врани, скорпиди и сафриди на силикон.",
-                "image_url": "https://i.ibb.co/Zc7bzN8/primorsko-pristanishte.jpg",
-                "longitude": "42.2640384",
-                "latitude": "27.7582115",
-                "region": "south",
-                "max_wind_speed": 4,
-                "bad_wind_directions": "Юг, Югозапад, Запад, Северозапад, Североизток",
-            },
-            "kiten-zangador": {
-                "bg_name": "Китен-зангадор",
-                "description": "В Китен до дискотека Зангадор можете да пробвате в активен сезон улов на лефер.",
-                "image_url": "https://i.ibb.co/YWY3FvS/kiten-zangador.jpg",
-                "longitude": "42.2433569",
-                "latitude": "27.7713793",
-                "region": "south",
-                "max_wind_speed": 4,
-                "bad_wind_directions": "Север, Северозапад, Запад, Югозапад, Юг",
-            },
-            "kiten-parzalkata": {
-                "bg_name": "Китен-пързалката",
-                "description": "В Китен до пързалката можете да ловите зарган през деня и лефер през нощта. А ако не хванете риба, можете да се пуснете по пързалката.",
-                "image_url": "https://i.ibb.co/bPnj8RX/kiten-parzalkata.jpg",
-                "longitude": "42.2447634",
-                "latitude": "27.7737746",
-                "region": "south",
-                "max_wind_speed": 4,
-                "bad_wind_directions": "Изток, Североизток, Север, Югоизток",
-            },
-            "kiten-golqmata-buna": {
-                "bg_name": "Китен-голямата буна",
-                "description": "На тази буна можете да ловите зарган. А вечерта можете да останете и да пробвате за чернокоп/лефер.",
-                "image_url": "https://i.ibb.co/DCryp6Z/kiten-golqmata-buna.jpg",
-                "longitude": "42.2430546",
-                "latitude": "27.7770163",
-                "region": "south",
-                "max_wind_speed": 4,
-                "bad_wind_directions": "Изток, Север, Североизток, Югоизток",
-            },
-        }
+        User = get_user_model()
+        first_superuser = User.objects.filter(is_superuser=True).first()
+        # user friendly error if we didnt create the superuser yet
+        if not first_superuser:
+            raise Exception("Superuser doesn't exist. Please create one before populating the places. Run python manage.py createsuperuser")
+        
+        base_path = Path(__file__).resolve().parent.parent.parent / "fixtures"
+        images_dir = base_path / "images"
+        json_path = base_path / "places.json"
+
+        data: list[PlaceData]
+        with open(json_path, "r", encoding="utf8") as f:
+            data = json.load(f)
 
         skipped, created = 0, 0
-        for fish_place, data in places_info.items():
-            if Place.objects.filter(place=fish_place).exists():
-                self.stdout.write(self.style.WARNING(f'{fish_place} place already exists. Skipping...'))
+        for item in data:
+            if Place.objects.filter(place=item["place"]).exists():
+                self.stdout.write(self.style.WARNING(f'{item["place"]} place already exists. Skipping...'))
                 skipped += 1
                 continue
 
-            Place.objects.create(
-                place=fish_place,
-                bg_place_name=data['bg_name'],
-                description=data['description'],
-                image_url=data['image_url'],
-                longitude=data['longitude'],
-                latitude=data['latitude'],
-                region=data['region'],
-                max_wind_speed=data['max_wind_speed'],
-                bad_wind_directions=data['bad_wind_directions']
-            )
+            image_path = images_dir / item['image_name']
+            if not image_path.exists():
+                self.stdout.write(self.style.ERROR(f"Image not found. Skipping {item['place']}"))
+                skipped += 1
+                continue
+
+            with open(image_path, "rb") as img_file:
+                # passing name=item['image_name'] helps to not throw suspicious error with path traversal issues
+                django_file = File(img_file, name=item['image_name'])
+
+                Place.objects.create(
+                    place=item["place"],
+                    bg_place_name=item['bg_name'],
+                    description=item['description'],
+                    image=django_file,
+                    longitude=item['longitude'],
+                    latitude=item['latitude'],
+                    region=item['region'],
+                    max_wind_speed=item['max_wind_speed'],
+                    bad_wind_directions=item['bad_wind_directions'],
+                    creator=first_superuser
+                )
 
             created += 1
-            self.stdout.write(self.style.SUCCESS(f'Successfully added {fish_place} place to the table'))
+            self.stdout.write(self.style.SUCCESS(f'Successfully added {item["place"]} place to the table'))
 
         self.stdout.write(f"Created {created}, Skipped {skipped}")
 
