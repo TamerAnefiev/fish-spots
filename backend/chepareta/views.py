@@ -1,6 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from base.mixins import AuthorizedMixin
 
@@ -33,6 +34,8 @@ def get_seller_chepareta(request, seller):
 
 
 class CreateChepareta(AuthorizedMixin, APIView):
+    parser_classes = [MultiPartParser, FormParser]
+
     def post(self, request, *args, **kwargs):
         if not request.user.is_superuser:
             return Response({"detail": "Unauthorized."}, status=401)
