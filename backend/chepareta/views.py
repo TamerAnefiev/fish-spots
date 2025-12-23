@@ -52,7 +52,7 @@ class CreateChepareta(AuthorizedMixin, APIView):
             seller = seller_serializer.save()
 
             chepare_types, images = request.data.getlist(
-                "chepare_type"
+                "chepareType"
             ), request.data.getlist("image")
 
             images_data = [
