@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useAuthContext } from "../context/AuthContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 import type { FishSpot } from "../types/fishspots";
 import setDocTitle from "../util/setDocTitle";
 import { deleteFishPlace, getFishPlaces } from "../services/fish-spots";

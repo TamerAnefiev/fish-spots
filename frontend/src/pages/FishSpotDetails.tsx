@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useCookieConsentContext } from "../context/CookieConsentContext";
+import { useCookieConsentContext } from "../hooks/useCookieConsentContext";
 import type { FishSpot } from "../types/fishspots";
 import { getPlaceDetails } from "../services/fish-spots";
 import setDocTitle from "../util/setDocTitle";

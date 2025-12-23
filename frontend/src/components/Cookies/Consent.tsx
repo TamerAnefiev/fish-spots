@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useCookieConsentContext } from "../../context/CookieConsentContext";
+import { useCookieConsentContext } from "../../hooks/useCookieConsentContext";
 
 export default function CookieConsent() {
   const { hasAgreed, onCookieConsent } = useCookieConsentContext();

@@ -3,7 +3,7 @@ import Spinner from "../components/Spinner/Spinner";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import setDocTitle from "../util/setDocTitle";
-import { useAuthContext } from "../context/AuthContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 import { baseUrl, latinToBgChepareType } from "../util/constants";
 import type { ChepareSeller } from "../types/chepare";
 

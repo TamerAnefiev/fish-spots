@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../services/users";
 import setDocTitle from "../util/setDocTitle";
-import { useAuthContext } from "../context/AuthContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 import FormError from "../components/FormError/FormError";
 import Spinner from "../components/Spinner/Spinner";
 

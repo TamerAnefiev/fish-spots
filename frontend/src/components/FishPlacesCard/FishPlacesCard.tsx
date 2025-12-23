@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useAuthContext } from "../../context/AuthContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const favoriteButtonImages = {
   notAdded: "/assets/heart-69-16.png",

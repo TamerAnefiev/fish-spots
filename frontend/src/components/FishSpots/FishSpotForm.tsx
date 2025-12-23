@@ -4,7 +4,7 @@ import {
   fishSpotAreasInRegion,
   latinToBulgarianCities,
 } from "../../util/constants";
-import { useAuthContext } from "../../context/AuthContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
 import Spinner from "../Spinner/Spinner";
 import FormError from "../FormError/FormError";
 import type { FishSpot } from "../../types/fishspots";
