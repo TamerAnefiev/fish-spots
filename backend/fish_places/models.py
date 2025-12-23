@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-import os
-
 
 UserModel = get_user_model()
 
@@ -21,6 +19,8 @@ class Place(models.Model):
     longitude = models.CharField(max_length=30)
     latitude = models.CharField(max_length=30)
     region = models.CharField(max_length=30)
+    # this is needed for the suggested spots algorithm. It maps to the weather place region.
+    # For example: tyulenovo place uses shabla fish_area_in_region because we take the weather from shabla
     fish_area_in_region = models.CharField(max_length=50)
     max_wind_speed = models.IntegerField()
     bad_wind_directions = models.CharField(max_length=255)
@@ -34,8 +34,8 @@ class Place(models.Model):
         return f"{self.region}/{self.place.lower()}"
 
     def delete(self, *args, **kwargs):
-        if self.image and os.path.exists(self.image.path):
-            os.remove(self.image.path)
+        if self.image:
+            self.image.delete(save=False)
 
         super().delete(*args, **kwargs)
 

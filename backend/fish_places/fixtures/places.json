@@ -7,6 +7,7 @@
     "longitude": "28.5986176",
     "latitude": "43.5159807",
     "region": "varna",
+    "fish_area_in_region": "shabla",
     "max_wind_speed": 5,
     "bad_wind_directions": "Изток, Югоизток, Североизток"
   },
@@ -18,6 +19,7 @@
     "longitude": "28.0664616",
     "latitude": "43.3230436",
     "region": "varna",
+    "fish_area_in_region": "kranevo",
     "max_wind_speed": 5,
     "bad_wind_directions": "Изток, Югоизток, Североизток"
   },
@@ -29,6 +31,7 @@
     "longitude": "28.0535553",
     "latitude": "43.3017312",
     "region": "varna",
+    "fish_area_in_region": "varna",
     "max_wind_speed": 5,
     "bad_wind_directions": "Юг, Северозапад"
   },
@@ -40,6 +43,7 @@
     "longitude": "28.0304259",
     "latitude": "43.2485368",
     "region": "varna",
+    "fish_area_in_region": "varna",
     "max_wind_speed": 5,
     "bad_wind_directions": "Североизток, Изток, Юг, Югоизток"
   },
@@ -51,6 +55,7 @@
     "longitude": "28.0251074",
     "latitude": "43.2446327",
     "region": "varna",
+    "fish_area_in_region": "varna",
     "max_wind_speed": 5,
     "bad_wind_directions": "Североизток, Изток, Юг, Югоизток"
   },
@@ -62,6 +67,7 @@
     "longitude": "28.0145879",
     "latitude": "43.2254081",
     "region": "varna",
+    "fish_area_in_region": "varna",
     "max_wind_speed": 4,
     "bad_wind_directions": "Североизток, Изток, Юг, Югоизток"
   },
@@ -73,6 +79,7 @@
     "longitude": "27.9804242",
     "latitude": "43.2175716",
     "region": "varna",
+    "fish_area_in_region": "varna",
     "max_wind_speed": 5,
     "bad_wind_directions": "Юг, Югоизток, Югозапад, Запад"
   },
@@ -84,6 +91,7 @@
     "longitude": "27.9335551",
     "latitude": "43.204669",
     "region": "varna",
+    "fish_area_in_region": "varna",
     "max_wind_speed": 4,
     "bad_wind_directions": "Изток, Юг, Югоизток, Югозапад, Запад"
   },
@@ -95,6 +103,7 @@
     "longitude": "27.9572982",
     "latitude": "43.211459",
     "region": "varna",
+    "fish_area_in_region": "varna",
     "max_wind_speed": 4,
     "bad_wind_directions": "Юг, Югоизток, Запад, Югозапад"
   },
@@ -106,6 +115,7 @@
     "longitude": "27.921919",
     "latitude": "43.1884918",
     "region": "varna",
+    "fish_area_in_region": "varna",
     "max_wind_speed": 4,
     "bad_wind_directions": "Североизток, Изток, Юг, Югоизток"
   },
@@ -117,6 +127,7 @@
     "longitude": "27.9203311",
     "latitude": "43.1937287",
     "region": "varna",
+    "fish_area_in_region": "varna",
     "max_wind_speed": 5,
     "bad_wind_directions": "Запад, Юг, Югозапад, Северозапад"
   },
@@ -128,6 +139,7 @@
     "longitude": "27.8851298",
     "latitude": "43.1901971",
     "region": "varna",
+    "fish_area_in_region": "varna",
     "max_wind_speed": 7,
     "bad_wind_directions": "Северозапад, Югоизток"
   },
@@ -139,6 +151,7 @@
     "longitude": "27.8953597",
     "latitude": "43.195383",
     "region": "varna",
+    "fish_area_in_region": "varna",
     "max_wind_speed": 9,
     "bad_wind_directions": "Северозапад, Югоизток"
   },
@@ -150,6 +163,7 @@
     "longitude": "27.9130221",
     "latitude": "43.1816372",
     "region": "varna",
+    "fish_area_in_region": "varna",
     "max_wind_speed": 5,
     "bad_wind_directions": "Север, Запад, Изток, Североизток, Северозапад"
   },
@@ -161,6 +175,7 @@
     "longitude": "27.482281",
     "latitude": "42.4854055",
     "region": "burgas",
+    "fish_area_in_region": "burgas",
     "max_wind_speed": 5,
     "bad_wind_directions": "Запад, Северозапад, Югозапад, Север, Юг"
   },
@@ -172,6 +187,7 @@
     "longitude": "27.6289487",
     "latitude": "42.459038",
     "region": "burgas",
+    "fish_area_in_region": "chernomorets",
     "max_wind_speed": 3,
     "bad_wind_directions": "Север, Североизток, Изток"
   },
@@ -183,6 +199,7 @@
     "longitude": "27.6499072",
     "latitude": "42.4459614",
     "region": "burgas",
+    "fish_area_in_region": "chernomorets",
     "max_wind_speed": 3,
     "bad_wind_directions": "Изток, Североизток, Югоизток"
   },
@@ -194,6 +211,7 @@
     "longitude": "27.652832",
     "latitude": "42.4303029",
     "region": "burgas",
+    "fish_area_in_region": "chernomorets",
     "max_wind_speed": 3,
     "bad_wind_directions": "Изток, Юг, Югоизток"
   },
@@ -205,6 +223,7 @@
     "longitude": "27.729592",
     "latitude": "42.40488",
     "region": "burgas",
+    "fish_area_in_region": "chernomorets",
     "max_wind_speed": 4,
     "bad_wind_directions": "Изток, Североизток, Югоизток"
   },
@@ -216,6 +235,7 @@
     "longitude": "27.7243115",
     "latitude": "42.3787155",
     "region": "burgas",
+    "fish_area_in_region": "chernomorets",
     "max_wind_speed": 4,
     "bad_wind_directions": "Изток, Североизток, Югоизток, Юг"
   },
@@ -227,6 +247,7 @@
     "longitude": "27.7932382",
     "latitude": "42.3071087",
     "region": "burgas",
+    "fish_area_in_region": "primorsko",
     "max_wind_speed": 5,
     "bad_wind_directions": "Изток, Североизток, Югоизток, Юг"
   },
@@ -238,6 +259,7 @@
     "longitude": "27.7800759",
     "latitude": "42.3036143",
     "region": "burgas",
+    "fish_area_in_region": "primorsko",
     "max_wind_speed": 4,
     "bad_wind_directions": "Изток, Североизток, Югоизток, Юг, Югозапад"
   },
@@ -249,6 +271,7 @@
     "longitude": "27.7573407",
     "latitude": "42.2881532",
     "region": "burgas",
+    "fish_area_in_region": "primorsko",
     "max_wind_speed": 4,
     "bad_wind_directions": "Изток, Юг, Югоизток"
   },
@@ -260,6 +283,7 @@
     "longitude": "27.7666443",
     "latitude": "42.2659478",
     "region": "burgas",
+    "fish_area_in_region": "primorsko",
     "max_wind_speed": 4,
     "bad_wind_directions": "Изток, Югоизток"
   },
@@ -271,6 +295,7 @@
     "longitude": "27.7582115",
     "latitude": "42.2640384",
     "region": "burgas",
+    "fish_area_in_region": "primorsko",
     "max_wind_speed": 4,
     "bad_wind_directions": "Юг, Югозапад, Запад, Северозапад, Североизток"
   },
@@ -282,6 +307,7 @@
     "longitude": "27.7713793",
     "latitude": "42.2433569",
     "region": "burgas",
+    "fish_area_in_region": "primorsko",
     "max_wind_speed": 4,
     "bad_wind_directions": "Север, Северозапад, Запад, Югозапад, Юг"
   },
@@ -293,6 +319,7 @@
     "longitude": "27.7737746",
     "latitude": "42.2447634",
     "region": "burgas",
+    "fish_area_in_region": "primorsko",
     "max_wind_speed": 4,
     "bad_wind_directions": "Изток, Североизток, Север, Югоизток"
   },
@@ -304,6 +331,7 @@
     "longitude": "27.7770163",
     "latitude": "42.2430546",
     "region": "burgas",
+    "fish_area_in_region": "primorsko",
     "max_wind_speed": 4,
     "bad_wind_directions": "Изток, Север, Североизток, Югоизток"
   }

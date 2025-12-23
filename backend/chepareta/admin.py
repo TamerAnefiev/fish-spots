@@ -9,7 +9,7 @@ class CustomSellerAdmin(admin.ModelAdmin):
 
 @admin.register(ChepareImages)
 class CustomChepareImagesAdmin(admin.ModelAdmin):
-    list_display = ("get_seller", "chepare_type")
+    list_display = ("get_seller", "chepare_type", "image")
 
     @admin.display(description="Seller Name")
     def get_seller(self, obj):
