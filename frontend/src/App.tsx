@@ -1,24 +1,24 @@
 import { Route, Routes } from "react-router-dom";
 import { useAuthContext } from "./context/AuthContext";
 import Navigation from "./components/Navigation/Navigation";
-import Home from "./components/Home/Home";
+import Home from "./pages/Home";
+import City from "./pages/City";
+import Weather from "./pages/Weather";
+import FishSpots from "./pages/FishSpots";
+import SuggestedSpots from "./pages/SuggestedSpots";
+import Login from "./pages/Login";
+import FishSpotDetails from "./pages/FishSpotDetails";
+import PrivacyPolicy from "./pages/Policy";
+import CatchHistory from "./pages/CatchHistory";
+import Chepareta from "./pages/Chepareta";
+import CheparetaDetails from "./pages/CheparetaDetails";
+import Changelog from "./pages/Changelog";
+import NotFound from "./pages/NotFound";
 import Footer from "./components/Footer/Footer";
-import Login from "./components/Login/Login";
 import PublicOnlyRoute from "./util/PublicOnlyRoute";
 import PrivateRoute from "./util/PrivateRoute";
-import City from "./components/City/City";
-import Weather from "./components/Weather/Weather";
-import FishSpots from "./components/FishSpots/FishSpots";
-import SuggestedSpots from "./components/SuggestedSpots/SuggestedSpots";
-import NotFound from "./components/NotFound/NotFound";
-import FishSpotDetails from "./components/FishSpotDetails/FishSpotDetails";
 import { cityRoutes } from "./util/routes";
 import CookieConsent from "./components/Cookies/Consent";
-import PrivacyPolicy from "./components/Policy/Policy";
-import Chepareta from "./components/Chepareta/Chepareta";
-import CheparetaDetails from "./components/CheparetaDetails/CheparetaDetails";
-import Changelog from "./components/Changelog/Changelog";
-import CatchHistory from "./components/CatchHistory/CatchHistory";
 import AuthLoader from "./components/AuthLoader/AuthLoader";
 
 function App() {
