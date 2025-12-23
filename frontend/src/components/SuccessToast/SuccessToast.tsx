@@ -19,7 +19,7 @@ const SuccessToast = ({
 
   useEffect(() => {
     if (trigger) {
-      setVisible(true);
+      setVisible(true); // subject to change. I am going to use ready for use toast anyway.
       setAnimatingOut(false);
       setProgress(100);
 
