@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import DestroyAPIView
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from .models import Place
 from .serializers import PlaceSerializer, CreatePlaceSerializer
@@ -32,6 +33,7 @@ class PlacesView(APIView):
 
 
 class CreatePlaceView(AuthorizedMixin, APIView):
+    parser_classes = [MultiPartParser, FormParser]
 
     def post(self, request, *args, **kwargs):
         if not request.user.is_superuser:
