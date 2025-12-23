@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { useAuthContext } from "./context/AuthContext";
+import { useAuthContext } from "./hooks/useAuthContext";
 import Navigation from "./components/Navigation/Navigation";
 import Home from "./pages/Home";
 import City from "./pages/City";
@@ -15,8 +15,7 @@ import CheparetaDetails from "./pages/CheparetaDetails";
 import Changelog from "./pages/Changelog";
 import NotFound from "./pages/NotFound";
 import Footer from "./components/Footer/Footer";
-import PublicOnlyRoute from "./util/PublicOnlyRoute";
-import PrivateRoute from "./util/PrivateRoute";
+import AuthGuard from "./guards/AuthGuard";
 import { cityRoutes } from "./util/routes";
 import CookieConsent from "./components/Cookies/Consent";
 import AuthLoader from "./components/AuthLoader/AuthLoader";
@@ -45,9 +44,9 @@ function App() {
           <Route
             path="/login"
             element={
-              <PublicOnlyRoute navigateTo="/">
+              <AuthGuard redirectTo="/" guestOnly>
                 <Login />
-              </PublicOnlyRoute>
+              </AuthGuard>
             }
           />
           <Route
@@ -58,9 +57,9 @@ function App() {
           <Route
             path="/catch-history"
             element={
-              <PrivateRoute>
+              <AuthGuard redirectTo="/login" privateRoute>
                 <CatchHistory />
-              </PrivateRoute>
+              </AuthGuard>
             }
           />
           <Route path="/chepareta" element={<Chepareta />} />
