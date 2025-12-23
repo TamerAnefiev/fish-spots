@@ -37,21 +37,27 @@ export default function Filters({
   onChangeMonth,
   onChangePageSize,
 }: FiltersProps) {
-  const [oldestYear, setOldestYear] = useState(now.getFullYear());
+  const [oldestYear, setOldestYear] = useState<number>(now.getFullYear());
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
-    fetchOldestCatchYear()
-      .then((response) => {
+    const getOldestCatchYear = async () => {
+      try {
+        setLoading(true);
+        const response = await fetchOldestCatchYear();
         if (response.status !== 200) return;
-        return response.json();
-      })
-      .then((data) => {
+
+        const data: { oldestYear: number } = await response.json();
         setOldestYear(data.oldestYear);
-      })
-      .catch((err) => console.error(err))
-      .finally(() => setLoading(false));
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error(error.message);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    getOldestCatchYear();
   }, []);
 
   // Generate years array from oldestYear to currentYear (descending)

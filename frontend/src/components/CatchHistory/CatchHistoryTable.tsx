@@ -25,21 +25,27 @@ export default function CatchHistoryTable({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
-    fetchCatchStats({ ...fetchParams })
-      .then((response) => {
+    const getFetchCatchStats = async () => {
+      try {
+        setLoading(true);
+        const response = await fetchCatchStats({ ...fetchParams });
         if (response.status !== 200) {
           throw new Error("Моля опитайте по-късно.");
         }
 
-        return response.json();
-      })
-      .then((data) => setStats(data))
-      .catch((error) => {
-        console.error(error.message);
-        showToast(true, error.message);
-      })
-      .finally(() => setLoading(false));
+        const data: CombinedCatchStats = await response.json();
+        setStats(data);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error(error.message);
+          showToast(true, error.message);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getFetchCatchStats();
 
     return () => {
       new AbortController().abort();

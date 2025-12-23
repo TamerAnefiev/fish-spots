@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { baseUrl } from "../../util/constants";
 import Spinner from "../Spinner/Spinner";
-import FormError from "../FormError/FormError";
 import type {
   ChepareCreation,
   ChepareSeller,
@@ -35,7 +34,6 @@ export default function CheparetaForm({
 }: CheparetaFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<ChepareCreation>(initialFormData);
-  const [formErrors, setFormErrors] = useState([]);
 
   const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, files } = e.target;
@@ -160,14 +158,6 @@ export default function CheparetaForm({
           Create!
         </button>
       </div>
-
-      {formErrors.length > 0 && (
-        <div className="flex flex-col gap-2 text-lg">
-          {formErrors.map((error, i) => (
-            <FormError key={`${error}${i}`} msg={error} />
-          ))}
-        </div>
-      )}
     </form>
   );
 }

@@ -76,7 +76,7 @@ const Navigation = () => {
         resetUser();
         navigate("/", { replace: true });
       }
-    } catch (error) {
+    } catch {
       console.error("failed to log out.");
     }
   };

@@ -30,6 +30,15 @@ export default function FishPlacesCard({
   openDeleteModal,
   onFavoriteClickHandler,
 }: FishPlacesCardProps) {
+  function isAddedToFavorites(id: number) {
+    return getFavSpotsFromLocalStorage().includes(id);
+  }
+
+  function getFavSpotsFromLocalStorage() {
+    const favSpotsString = localStorage.getItem(localStorageKey);
+    return favSpotsString ? JSON.parse(favSpotsString) : [];
+  }
+
   const { isAdmin } = useAuthContext();
   const [isSpotFavorite, setIsSpotFavorite] = useState(() =>
     isAddedToFavorites(spotId)
@@ -62,11 +71,6 @@ export default function FishPlacesCard({
     }
     onFavoriteClickHandler?.();
   }
-
-  function isAddedToFavorites(id: number) {
-    return getFavSpotsFromLocalStorage().includes(id);
-  }
-
   function insertToLocalStorage(id: number) {
     const favSpots = getFavSpotsFromLocalStorage();
     favSpots.push(id);
@@ -77,11 +81,6 @@ export default function FishPlacesCard({
     const favSpots = getFavSpotsFromLocalStorage();
     favSpots.splice(favSpots.indexOf(id), 1);
     localStorage.setItem(localStorageKey, JSON.stringify(favSpots));
-  }
-
-  function getFavSpotsFromLocalStorage() {
-    const favSpotsString = localStorage.getItem(localStorageKey);
-    return favSpotsString ? JSON.parse(favSpotsString) : [];
   }
 
   return (
