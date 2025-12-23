@@ -14,6 +14,7 @@ class PlaceData(TypedDict):
     longitude: float | str
     latitude: float | str
     region: Literal["varna", "burgas"]
+    fish_area_in_region: str
     max_wind_speed: int
     bad_wind_directions: str
 
@@ -60,6 +61,7 @@ class Command(BaseCommand):
                     longitude=item['longitude'],
                     latitude=item['latitude'],
                     region=item['region'],
+                    fish_area_in_region=item["fish_area_in_region"],
                     max_wind_speed=item['max_wind_speed'],
                     bad_wind_directions=item['bad_wind_directions'],
                     creator=first_superuser
