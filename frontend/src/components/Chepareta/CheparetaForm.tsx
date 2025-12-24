@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { baseUrl } from "../../util/constants";
-import Spinner from "../Spinner/Spinner";
+import { baseUrl } from "@/util/constants";
+import Spinner from "@/components/Spinner/Spinner";
 import type {
   ChepareCreation,
   ChepareSeller,
   ChepareType,
   ChepareTypes,
-} from "../../types/chepare";
+} from "@/types/chepare";
 
 const initialFormData: ChepareCreation = {
   name: "",

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { createFishPlace } from "../../services/fish-spots";
+import { createFishPlace } from "@/services/fish-spots";
 import {
   fishSpotAreasInRegion,
   latinToBulgarianCities,
-} from "../../util/constants";
-import { useAuthContext } from "../../hooks/useAuthContext";
-import Spinner from "../Spinner/Spinner";
-import FormError from "../FormError/FormError";
-import type { FishSpot } from "../../types/fishspots";
+} from "@/util/constants";
+import { useAuthContext } from "@/hooks/useAuthContext";
+import Spinner from "@/components/Spinner/Spinner";
+import FormError from "@/components/FormError/FormError";
+import type { FishSpot } from "@/types/fishspots";
 
 const initialFormData = {
   place: "",

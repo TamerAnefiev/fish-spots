@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { baseUrl } from "../util/constants";
+import { AuthContext } from "@/context/AuthContext";
+import { baseUrl } from "@/util/constants";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [userId, setUserId] = useState("");

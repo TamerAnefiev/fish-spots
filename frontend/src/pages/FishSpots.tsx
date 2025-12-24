@@ -1,16 +1,16 @@
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useAuthContext } from "../hooks/useAuthContext";
-import type { FishSpot } from "../types/fishspots";
-import setDocTitle from "../util/setDocTitle";
-import { deleteFishPlace, getFishPlaces } from "../services/fish-spots";
-import RegionChoice from "../components/RegionChoice/RegionChoice";
-import ChoiceContainer from "../components/ChoiceContainer/ChoiceContainer";
-import FishSpotForm from "../components/FishSpots/FishSpotForm";
-import Spinner from "../components/Spinner/Spinner";
-import FilterFishSpots from "../components/FilterFishSpots/FilterFishSpots";
-import FishPlacesCard from "../components/FishPlacesCard/FishPlacesCard";
-import DeleteAsker from "../components/Modals/DeleteAsker";
+import { useAuthContext } from "@/hooks/useAuthContext";
+import type { FishSpot } from "@/types/fishspots";
+import setDocTitle from "@/util/setDocTitle";
+import { deleteFishPlace, getFishPlaces } from "@/services/fish-spots";
+import RegionChoice from "@/components/RegionChoice/RegionChoice";
+import ChoiceContainer from "@/components/ChoiceContainer/ChoiceContainer";
+import FishSpotForm from "@/components/FishSpots/FishSpotForm";
+import Spinner from "@/components/Spinner/Spinner";
+import FilterFishSpots from "@/components/FilterFishSpots/FilterFishSpots";
+import FishPlacesCard from "@/components/FishPlacesCard/FishPlacesCard";
+import DeleteAsker from "@/components/Modals/DeleteAsker";
 
 type DeleteModalProps = {
   isOpened: boolean;

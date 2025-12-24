@@ -1,4 +1,4 @@
-import type { CatchHistoryPagination } from "../../types/catchHistory";
+import type { CatchHistoryPagination } from "@/types/catchHistory";
 
 type PaginationProps = {
   pagination: CatchHistoryPagination;

@@ -1,4 +1,4 @@
-import Spinner from "../Spinner/Spinner";
+import Spinner from "@/components/Spinner/Spinner";
 
 type DeleteAskerProps = {
   isOpen: boolean;

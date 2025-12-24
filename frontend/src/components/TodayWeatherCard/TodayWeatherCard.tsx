@@ -1,4 +1,4 @@
-import type { WindDirection } from "../../types/weather";
+import type { WindDirection } from "@/types/weather";
 
 const directions = {
   Север: "fa-arrow-down-long",

@@ -1,4 +1,4 @@
-import { baseUrl } from "../util/constants";
+import { baseUrl } from "@/util/constants";
 
 export const getFishPlaces = async (region: string) => {
   const response = await fetch(`${baseUrl}/places/?region=${region}`);

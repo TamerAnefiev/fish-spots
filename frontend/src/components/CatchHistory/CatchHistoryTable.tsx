@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
+import { Trash2 } from "lucide-react";
 import { fetchCatchStats, deleteCatchStat } from "./services";
 import Pagination from "./Pagination";
 import StatsSummary from "./StatsSummary";
-import SuccessToast from "../SuccessToast/SuccessToast";
-import useToast from "../../hooks/useToast";
-import Spinner from "../Spinner/Spinner";
-import { Trash2 } from "lucide-react";
+import SuccessToast from "@/components/SuccessToast/SuccessToast";
+import useToast from "@/hooks/useToast";
+import Spinner from "@/components/Spinner/Spinner";
 import type {
   CombinedCatchStats,
   HistoryFetchParams,
-} from "../../types/catchHistory";
+} from "@/types/catchHistory";
 
 type CatchHistoryTableProps = {
   fetchParams: HistoryFetchParams;

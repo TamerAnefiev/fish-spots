@@ -1,10 +1,10 @@
 import { useState } from "react";
-import CatchHistoryTable from "../components/CatchHistory/CatchHistoryTable";
-import CatchHistoryForm from "../components/CatchHistory/CatchHistoryForm";
-import SortDropdown from "../components/CatchHistory/SortDropdown";
-import Filters from "../components/CatchHistory/Filters";
-import setDocTitle from "../util/setDocTitle";
-import type { HistoryFetchParams, SortOrdering } from "../types/catchHistory";
+import CatchHistoryTable from "@/components/CatchHistory/CatchHistoryTable";
+import CatchHistoryForm from "@/components/CatchHistory/CatchHistoryForm";
+import SortDropdown from "@/components/CatchHistory/SortDropdown";
+import Filters from "@/components/CatchHistory/Filters";
+import setDocTitle from "@/util/setDocTitle";
+import type { HistoryFetchParams, SortOrdering } from "@/types/catchHistory";
 
 const now = new Date();
 const defaultFetchParams: HistoryFetchParams = {

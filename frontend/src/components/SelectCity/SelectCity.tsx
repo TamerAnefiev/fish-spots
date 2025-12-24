@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { cityRoutes } from "../../util/routes.js";
-import { bulgarianToLatinCities } from "../../util/constants";
+import { cityRoutes } from "@/util/routes.js";
+import { bulgarianToLatinCities } from "@/util/constants";
 
 type BulgarianCity = keyof typeof bulgarianToLatinCities;
 

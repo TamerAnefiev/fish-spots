@@ -1,4 +1,4 @@
-import type { SortOrdering } from "../../types/catchHistory";
+import type { SortOrdering } from "@/types/catchHistory";
 
 const sortOptions = [
   { value: "-date", label: " най-нови" },

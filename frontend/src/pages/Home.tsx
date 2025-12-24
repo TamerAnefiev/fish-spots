@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import setDocTitle from "../util/setDocTitle";
-import CityCard from "../components/Home/CityCard";
+import setDocTitle from "@/util/setDocTitle";
+import CityCard from "@/components/Home/CityCard";
 
 const cityCards = [
   {

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../services/users";
-import setDocTitle from "../util/setDocTitle";
-import { useAuthContext } from "../hooks/useAuthContext";
-import FormError from "../components/FormError/FormError";
-import Spinner from "../components/Spinner/Spinner";
+import { loginUser } from "@/services/users";
+import setDocTitle from "@/util/setDocTitle";
+import { useAuthContext } from "@/hooks/useAuthContext";
+import FormError from "@/components/FormError/FormError";
+import Spinner from "@/components/Spinner/Spinner";
 
 const Login = () => {
   const { handleSetUser } = useAuthContext();

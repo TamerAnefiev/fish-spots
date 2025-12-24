@@ -1,11 +1,11 @@
-import CheparetaForm from "../components/Chepareta/CheparetaForm";
-import Spinner from "../components/Spinner/Spinner";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import setDocTitle from "../util/setDocTitle";
-import { useAuthContext } from "../hooks/useAuthContext";
-import { baseUrl, latinToBgChepareType } from "../util/constants";
-import type { ChepareSeller } from "../types/chepare";
+import CheparetaForm from "@/components/Chepareta/CheparetaForm";
+import Spinner from "@/components/Spinner/Spinner";
+import setDocTitle from "@/util/setDocTitle";
+import { useAuthContext } from "@/hooks/useAuthContext";
+import { baseUrl, latinToBgChepareType } from "@/util/constants";
+import type { ChepareSeller } from "@/types/chepare";
 
 export default function Chepareta() {
   const { isLogged, isAdmin } = useAuthContext();

@@ -1,13 +1,13 @@
-import FishPlacesCard from "../components/FishPlacesCard/FishPlacesCard";
-import RegionChoice from "../components/RegionChoice/RegionChoice";
-import ChoiceContainer from "../components/ChoiceContainer/ChoiceContainer";
-import FilterFishSpots from "../components/FilterFishSpots/FilterFishSpots";
-import Spinner from "../components/Spinner/Spinner";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getSuggestedSpots } from "../services/fish-spots";
-import setDocTitle from "../util/setDocTitle";
-import type { FishSpot } from "../types/fishspots";
+import FishPlacesCard from "@/components/FishPlacesCard/FishPlacesCard";
+import RegionChoice from "@/components/RegionChoice/RegionChoice";
+import ChoiceContainer from "@/components/ChoiceContainer/ChoiceContainer";
+import FilterFishSpots from "@/components/FilterFishSpots/FilterFishSpots";
+import Spinner from "@/components/Spinner/Spinner";
+import { getSuggestedSpots } from "@/services/fish-spots";
+import setDocTitle from "@/util/setDocTitle";
+import type { FishSpot } from "@/types/fishspots";
 
 export default function SuggestedSpots() {
   const city = useLocation();

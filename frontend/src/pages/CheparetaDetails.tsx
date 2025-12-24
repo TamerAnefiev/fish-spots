@@ -1,9 +1,8 @@
-import { Carousel } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Spinner from "../components/Spinner/Spinner";
-import { baseUrl, latinToBgChepareType } from "../util/constants";
-import type { ChepareSeller, ChepareType } from "../types/chepare";
+import Spinner from "@/components/Spinner/Spinner";
+import { baseUrl, latinToBgChepareType } from "@/util/constants";
+import type { ChepareSeller, ChepareType } from "@/types/chepare";
 
 export default function CheparetaDetails() {
   const navigate = useNavigate();
@@ -81,7 +80,8 @@ export default function CheparetaDetails() {
               {getChepareImagesByType(chepareType).length} снимки
             </h3>
             <div className="h-[650px] mx-auto max-w-3xl mb-8">
-              <Carousel pauseOnHover indicators={false}>
+              {/* TODO: ADD CAROUSEL */}
+              {/* <Carousel pauseOnHover indicators={false}>
                 {getChepareImagesByType(chepareType).map((img) => (
                   <img
                     className="w-full h-full"
@@ -91,7 +91,7 @@ export default function CheparetaDetails() {
                     loading="lazy"
                   />
                 ))}
-              </Carousel>
+              </Carousel> */}
             </div>
           </div>
         ))}

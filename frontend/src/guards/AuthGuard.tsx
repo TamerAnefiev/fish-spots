@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
-import { useAuthContext } from "../hooks/useAuthContext";
 import type React from "react";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
 type PrivateRouteProps = {
   children: React.ReactNode;
@@ -19,7 +19,6 @@ const AuthGuard = ({
 }: PrivateRouteProps) => {
   const { isLogged } = useAuthContext();
 
-  // Guest-only page: redirect logged-in users
   if (guestOnly && isLogged) {
     return <Navigate to={redirectTo || "/"} replace={replace} />;
   }

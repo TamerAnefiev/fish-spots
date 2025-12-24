@@ -1,13 +1,13 @@
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import type { Day, MultipleDays } from "../types/weather";
-import setDocTitle from "../util/setDocTitle";
-import { getWeatherForPlace } from "../services/weather";
-import TodayWeatherCard from "../components/TodayWeatherCard/TodayWeatherCard";
-import RegionChoice from "../components/RegionChoice/RegionChoice";
-import ChoiceContainer from "../components/ChoiceContainer/ChoiceContainer";
-import SelectCity from "../components/SelectCity/SelectCity";
-import Spinner from "../components/Spinner/Spinner";
+import type { Day, MultipleDays } from "@/types/weather";
+import setDocTitle from "@/util/setDocTitle";
+import { getWeatherForPlace } from "@/services/weather";
+import TodayWeatherCard from "@/components/TodayWeatherCard/TodayWeatherCard";
+import RegionChoice from "@/components/RegionChoice/RegionChoice";
+import ChoiceContainer from "@/components/ChoiceContainer/ChoiceContainer";
+import SelectCity from "@/components/SelectCity/SelectCity";
+import Spinner from "@/components/Spinner/Spinner";
 
 export default function Weather() {
   const [isLoading, setIsLoading] = useState(true);

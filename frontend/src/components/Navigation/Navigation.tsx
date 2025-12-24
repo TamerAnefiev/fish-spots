@@ -1,8 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useAuthContext } from "../../hooks/useAuthContext";
+import { useAuthContext } from "@/hooks/useAuthContext";
 import Hamburger from "./Hamburger";
-import { logoutUser } from "../../services/users";
+import { logoutUser } from "@/services/users";
 
 const staticNavigationLinks = {
   cssClasses: "hover:text-stone-300 duration-300",

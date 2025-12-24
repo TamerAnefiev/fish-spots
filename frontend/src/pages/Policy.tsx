@@ -1,5 +1,5 @@
-import setDocumentTitle from "../util/setDocTitle";
-import { websiteName } from "../util/constants";
+import setDocumentTitle from "@/util/setDocTitle";
+import { websiteName } from "@/util/constants";
 
 export default function PrivacyPolicy() {
   setDocumentTitle("Privacy Policy");

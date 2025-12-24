@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { CookieConsentContext } from "../context/CookieConsentContext";
-import { baseUrl } from "../util/constants";
+import { CookieConsentContext } from "@/context/CookieConsentContext";
+import { baseUrl } from "@/util/constants";
 
 export const CookieConsentProvider = ({
   children,

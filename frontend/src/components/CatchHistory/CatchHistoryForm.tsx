@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { createCatchStats } from "./services";
-import Spinner from "../Spinner/Spinner";
-import SuccessToast from "../SuccessToast/SuccessToast";
-import useToast from "../../hooks/useToast";
-import type { CatchHistory } from "../../types/catchHistory";
+import Spinner from "@/components/Spinner/Spinner";
+import SuccessToast from "@/components/SuccessToast/SuccessToast";
+import useToast from "@/hooks/useToast";
+import type { CatchHistory } from "@/types/catchHistory";
 
 type CatchHistoryFormProps = {
   showForm: boolean;

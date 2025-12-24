@@ -1,4 +1,4 @@
-import { baseUrl } from "../util/constants";
+import { baseUrl } from "@/util/constants";
 
 const loginUser = async (username: string, password: string) => {
   const options: RequestInit = {

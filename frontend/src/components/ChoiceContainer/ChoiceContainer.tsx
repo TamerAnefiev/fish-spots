@@ -1,6 +1,6 @@
-import RegionChoiceCard from "../RegionChoiceCard/RegionChoiceCard";
 import { useLocation } from "react-router-dom";
-import { cityRoutes } from "../../util/routes";
+import RegionChoiceCard from "@/components/RegionChoiceCard/RegionChoiceCard";
+import { cityRoutes } from "@/util/routes";
 
 const choiceCards = [
   {

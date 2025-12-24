@@ -1,4 +1,4 @@
-import type { MonthlyStats, YearlyStats } from "../../types/catchHistory";
+import type { MonthlyStats, YearlyStats } from "@/types/catchHistory";
 
 type StatsSummaryProps = {
   monthlyStats: MonthlyStats;
