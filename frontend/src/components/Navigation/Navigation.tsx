@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useAuthContext } from "@/hooks/useAuthContext";
+import { useAuth } from "@/context/AuthContext";
 import Hamburger from "./Hamburger";
 import { logoutUser } from "@/services/users";
 
@@ -28,7 +28,7 @@ const staticNavigationLinks = {
 
 const Navigation = () => {
   const [hamburgerOpen, setHamburgerOpen] = useState(false);
-  const { isLogged, resetUser } = useAuthContext();
+  const { isLogged, resetUser } = useAuth();
   const navigate = useNavigate();
 
   const handleHamburgerMenu = () => {

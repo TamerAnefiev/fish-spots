@@ -4,7 +4,7 @@ import {
   fishSpotAreasInRegion,
   latinToBulgarianCities,
 } from "@/util/constants";
-import { useAuthContext } from "@/hooks/useAuthContext";
+import { useAuth } from "@/context/AuthContext";
 import Spinner from "@/components/Spinner/Spinner";
 import FormError from "@/components/FormError/FormError";
 import type { FishSpot } from "@/types/fishspots";
@@ -31,7 +31,7 @@ export default function FishSpotForm({
   showForm,
   addNewPlaceHandler,
 }: FishSpotFormProps) {
-  const { userId } = useAuthContext();
+  const { userId } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState(initialFormData);
   const [formErrors, setFormErrors] = useState<string[]>([]);

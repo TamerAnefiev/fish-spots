@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import type React from "react";
-import { useAuthContext } from "@/hooks/useAuthContext";
+import { useAuth } from "@/context/AuthContext";
 
 type PrivateRouteProps = {
   children: React.ReactNode;
@@ -17,7 +17,7 @@ const AuthGuard = ({
   redirectTo,
   replace = true,
 }: PrivateRouteProps) => {
-  const { isLogged } = useAuthContext();
+  const { isLogged } = useAuth();
 
   if (guestOnly && isLogged) {
     return <Navigate to={redirectTo || "/"} replace={replace} />;

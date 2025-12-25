@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import CheparetaForm from "@/components/Chepareta/CheparetaForm";
 import Spinner from "@/components/Spinner/Spinner";
 import setDocTitle from "@/util/setDocTitle";
-import { useAuthContext } from "@/hooks/useAuthContext";
+import { useAuth } from "@/context/AuthContext";
 import { baseUrl, latinToBgChepareType } from "@/util/constants";
 import type { ChepareSeller } from "@/types/chepare";
 
 export default function Chepareta() {
-  const { isLogged, isAdmin } = useAuthContext();
+  const { isLogged, isAdmin } = useAuth();
 
   const [allChepareta, setAllChepareta] = useState<ChepareSeller[] | null>(
     null

@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { useAuthContext } from "@/hooks/useAuthContext";
+import { useAuth } from "./context/AuthContext";
 import Navigation from "@/components/Navigation/Navigation";
 import Home from "@/pages/Home";
 import City from "@/pages/City";
@@ -21,7 +21,7 @@ import CookieConsent from "@/components/Cookies/Consent";
 import AuthLoader from "@/components/AuthLoader/AuthLoader";
 
 function App() {
-  const { loading } = useAuthContext();
+  const { loading } = useAuth();
 
   if (loading) {
     return <AuthLoader />;

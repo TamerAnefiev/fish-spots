@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useAuthContext } from "@/hooks/useAuthContext";
+import { useAuth } from "@/context/AuthContext";
 
 const favoriteButtonImages = {
   notAdded: "/assets/heart-69-16.png",
@@ -39,7 +39,7 @@ export default function FishPlacesCard({
     return favSpotsString ? JSON.parse(favSpotsString) : [];
   }
 
-  const { isAdmin } = useAuthContext();
+  const { isAdmin } = useAuth();
   const [isSpotFavorite, setIsSpotFavorite] = useState(() =>
     isAddedToFavorites(spotId)
   );

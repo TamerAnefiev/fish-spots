@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useAuthContext } from "@/hooks/useAuthContext";
+import { useAuth } from "@/context/AuthContext";
 import type { FishSpot } from "@/types/fishspots";
 import setDocTitle from "@/util/setDocTitle";
 import { deleteFishPlace, getFishPlaces } from "@/services/fish-spots";
@@ -19,7 +19,7 @@ type DeleteModalProps = {
 };
 
 export default function FishSpots() {
-  const { isAdmin } = useAuthContext();
+  const { isAdmin } = useAuth();
   const city = useLocation();
   const searchParams = new URLSearchParams(city.search);
   const wantedRegion = searchParams.get("search") || "varna";

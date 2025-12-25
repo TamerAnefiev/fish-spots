@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useCookieConsentContext } from "@/hooks/useCookieConsentContext";
+import { useCookieConsent } from "@/context/CookieConsentContext";
 import type { FishSpot } from "@/types/fishspots";
 import { getPlaceDetails } from "@/services/fish-spots";
 import setDocTitle from "@/util/setDocTitle";
 import Spinner from "@/components/Spinner/Spinner";
 
 export default function FishSpotDetails() {
-  const { hasAgreed } = useCookieConsentContext();
+  const { hasAgreed } = useCookieConsent();
   const { region, spotName } = useParams();
   const navigate = useNavigate();
   const [placeData, setPlaceData] = useState<FishSpot | null>(null);
