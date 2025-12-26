@@ -13,6 +13,7 @@
     "lucide-react": "^0.513.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-error-boundary": "^6.0.0",
     "react-router-dom": "^6.16.0",
     "tailwind-merge": "^3.4.0",
     "tailwindcss-animate": "^1.0.7"
@@ -20,8 +21,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
-    "tailwind-watch": "tailwindcss -i src/index.css -o dist/output.css --watch"
+    "lint": "eslint ."
   },
   "browserslist": {
     "production": [
