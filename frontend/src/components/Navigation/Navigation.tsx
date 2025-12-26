@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import Hamburger from "./Hamburger";
 import { logoutUser } from "@/services/users";
+import { ThemeDropdown } from "./ThemeDropdown";
 
 const staticNavigationLinks = {
   cssClasses: "hover:text-stone-300 duration-300",
@@ -133,6 +134,10 @@ const Navigation = () => {
               Изход
             </li>
           )}
+
+          <li>
+            <ThemeDropdown />
+          </li>
         </ul>
 
         <ul
