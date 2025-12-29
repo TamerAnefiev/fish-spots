@@ -83,8 +83,8 @@ const Navigation = () => {
   };
 
   return (
-    <header className="flex md:justify-center p-6 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-medium text-2xl">
-      <nav className="max-w-screen-2xl flex md:justify-between max-md:items-center md:w-5/6 max-md:w-full click-outside">
+    <header className="sticky top-0 z-50 flex w-full bg-linear-to-r from-blue-500 to-cyan-500 p-6 text-2xl font-medium text-white md:justify-center">
+      <nav className="click-outside flex max-w-screen-2xl max-md:w-full max-md:items-center md:w-5/6 md:justify-between">
         <Hamburger
           isOpen={hamburgerOpen}
           handleHamburgerMenu={handleHamburgerMenu}
@@ -100,7 +100,7 @@ const Navigation = () => {
           </Link>
         </section>
 
-        <ul className="flex gap-12 flex-wrap max-md:hidden">
+        <ul className="flex flex-wrap gap-12 max-md:hidden">
           {staticNavigationLinks.links.map((link) => {
             if (!isLogged && link.hideWhenNotLogged) return null;
 
@@ -141,8 +141,8 @@ const Navigation = () => {
         </ul>
 
         <ul
-          className={`z-50 overflow-auto flex flex-col gap-5 fixed top-[80px] left-0 bottom-0 w-60 p-4 text-white font-medium text-2xl bg-slate-900 rounded-r-lg ease-in-out transition-opacity duration-300 ${
-            hamburgerOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          className={`fixed top-20 bottom-0 left-0 z-50 flex w-60 flex-col gap-5 overflow-auto rounded-r-lg bg-slate-900 p-4 text-2xl font-medium text-white transition-opacity duration-300 ease-in-out ${
+            hamburgerOpen ? "opacity-100" : "pointer-events-none opacity-0"
           }`}
         >
           {staticNavigationLinks.links.map((link) => {
