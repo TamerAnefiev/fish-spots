@@ -26,22 +26,22 @@ const Home = () => {
 
   return (
     <main>
-      <div className="flex justify-center items-center h-96 min-h-fit overflow-hidden relative">
+      <div className="relative flex h-96 min-h-fit items-center justify-center overflow-hidden">
         <img
-          className="w-full h-full object-cover"
+          className="h-full w-full object-cover"
           src={"/assets/banner.jpg"}
           alt="banner"
         ></img>
-        <div className="absolute bg-zinc-900 opacity-60 w-full h-full"></div>
-        <article className="flex flex-col justify-center gap-8 absolute text-white">
-          <h1 className="max-md:text-2xl max-md:px-6 text-4xl text-center font-medium tracking-widest">
+        <div className="absolute h-full w-full bg-zinc-900 opacity-60"></div>
+        <article className="absolute flex flex-col justify-center gap-8 text-white">
+          <h1 className="text-center text-4xl font-medium tracking-widest max-md:px-6 max-md:text-2xl">
             Тук ще откриете вашите места за{" "}
             <span className="text-sky-400">риболов!</span>
           </h1>
 
           <Link
             to="/city"
-            className="bg-emerald-400 self-center px-8 py-3 text-2xl rounded-full font-medium hover:bg-teal-600 duration-300 hover:scale-105"
+            className="self-center rounded-full bg-emerald-400 px-8 py-3 text-2xl font-medium duration-300 hover:scale-105 hover:bg-teal-600"
           >
             Разгледай!
           </Link>
@@ -49,12 +49,12 @@ const Home = () => {
       </div>
 
       <article className="py-16">
-        <h2 className="text-center max-md:text-2xl text-4xl mb-12 px-4 relative">
+        <h2 className="relative mb-12 px-4 text-center text-4xl max-md:text-2xl">
           Информация за над 25 места!
-          <div className="absolute top-[115%] left-2/4 -translate-x-2/4 -translate-y-1/2 max-md:w-40 w-60 h-0.5 bg-cyan-600"></div>
+          <div className="absolute top-[115%] left-2/4 h-0.5 w-60 -translate-x-2/4 -translate-y-1/2 bg-cyan-600 max-md:w-40"></div>
         </h2>
 
-        <div className="w-full flex flex-wrap justify-center gap-12 w-3/5">
+        <div className="flex w-full flex-wrap justify-center gap-12">
           {cityCards.map((city) => (
             <CityCard
               key={city.cityName}
@@ -66,28 +66,24 @@ const Home = () => {
         </div>
       </article>
 
-      <section className="py-16 flex flex-col justify-center items-center">
-        <h2 className="text-center max-md:text-2xl text-4xl mb-12 px-4 relative">
+      <section className="flex flex-col items-center justify-center py-16">
+        <h2 className="relative mb-12 px-4 text-center text-4xl max-md:text-2xl">
           Чепарета от известни майстори!
-          <div className="absolute top-[115%] left-2/4 -translate-x-2/4 -translate-y-1/2 max-md:w-40 w-60 h-0.5 bg-cyan-600"></div>
+          <div className="absolute top-[115%] left-2/4 h-0.5 w-60 -translate-x-2/4 -translate-y-1/2 bg-cyan-600 max-md:w-40"></div>
         </h2>
-        <ul className="text-2xl max-w-lg bg-gray-200 p-8 rounded-3xl shadow-xl mb-6">
-          {chepareTypes.map((chepareType) => (
-            <li key={chepareType}>
-              <p className="mb-3 inline-flex justify-between items-center w-full gap-4">
-                {chepareType}
-                <span>
-                  <i className="fa-solid fa-check text-white bg-green-500 p-1.5 rounded-full w-8 h-8"></i>
-                </span>
-              </p>
-            </li>
-          ))}
-        </ul>
-        <Link
-          to="/chepareta"
-          className="bg-emerald-400 self-center px-8 py-3 text-2xl rounded-full font-medium hover:bg-teal-600 duration-300 hover:scale-105"
-        >
-          Разгледай!
+        <Link to="/chepareta" className="duration-150 hover:scale-102">
+          <ul className="bg-muted mb-6 max-w-lg rounded-3xl p-8 text-2xl shadow-xl">
+            {chepareTypes.map((chepareType) => (
+              <li key={chepareType}>
+                <p className="mb-3 inline-flex w-full items-center justify-between gap-4">
+                  {chepareType}
+                  <span>
+                    <i className="fa-solid fa-check h-8 w-8 rounded-full bg-green-500 p-1.5 text-white"></i>
+                  </span>
+                </p>
+              </li>
+            ))}
+          </ul>
         </Link>
       </section>
     </main>
