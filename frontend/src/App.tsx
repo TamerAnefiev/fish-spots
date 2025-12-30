@@ -29,7 +29,7 @@ function App() {
 
   return (
     <>
-      <div className="flex flex-col min-h-screen bg-zinc-300">
+      <div className="bg-background flex min-h-screen flex-col">
         <Navigation />
 
         <Routes>
