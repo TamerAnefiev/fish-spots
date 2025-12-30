@@ -1,23 +1,19 @@
 import { useEffect, useState, createContext, useContext } from "react";
+import { useMutation, type UseMutationResult } from "@tanstack/react-query";
 import { baseUrl } from "@/util/constants";
+import type { User, LoginCredentials } from "@/types/user";
 
 type AuthData = {
-  userId: string;
-  user: string;
-  isAdmin: boolean;
-  isLogged: boolean;
+  user: User | null;
   loading: boolean;
-  handleSetUser: (username: string, userId: string, isAdmin: boolean) => void;
-  resetUser: () => void;
+  loginMutation: UseMutationResult<User, Error, LoginCredentials>;
+  logoutMutation: UseMutationResult<Response, Error, void, unknown>;
 };
 
 const AuthContext = createContext<AuthData | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [userId, setUserId] = useState("");
-  const [user, setUser] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isLogged, setIsLogged] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -31,12 +27,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           credentials: "include",
         };
         const response = await fetch(`${baseUrl}/api/authorize/`, options);
-        const data = await response.json();
+        const data: User = await response.json();
 
         if (response.status === 200) {
-          handleSetUser(data.user, data.id, data.admin);
+          setUser(data);
         } else if (response.status === 401) {
-          resetUser();
+          setUser(null);
         }
       } catch {
         console.error("authentication error");
@@ -48,28 +44,50 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     authorize();
   }, []);
 
-  const handleSetUser = (username: string, id: string, isAdmin: boolean) => {
-    setUser(username);
-    setUserId(id);
-    setIsAdmin(isAdmin);
-    setIsLogged(true);
-  };
+  const loginMutation = useMutation({
+    mutationFn: async ({ username, password }: LoginCredentials) => {
+      const options: RequestInit = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+        credentials: "include",
+      };
+      const response = await fetch(`${baseUrl}/api/token/`, options);
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => {});
+        throw new Error(errorData.detail || "Login failed");
+      }
 
-  const resetUser = () => {
-    setUser("");
-    setUserId("");
-    setIsAdmin(false);
-    setIsLogged(false);
-  };
+      return response.json();
+    },
+    onSuccess: (userData: User) => {
+      setUser(userData);
+    },
+  });
+
+  const logoutMutation = useMutation({
+    mutationFn: async () => {
+      const response = await fetch(`${baseUrl}/api/logout/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+      if (!response.ok) throw new Error("Logout failed");
+      return response;
+    },
+    onSuccess: () => {
+      setUser(null);
+    },
+    onError: (error) => console.error("Logout error:", error),
+  });
 
   const contextData = {
-    userId,
     user,
-    isAdmin,
-    isLogged,
     loading,
-    handleSetUser,
-    resetUser,
+    loginMutation,
+    logoutMutation,
   };
 
   return (
