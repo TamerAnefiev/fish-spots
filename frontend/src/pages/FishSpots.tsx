@@ -19,7 +19,7 @@ type DeleteModalProps = {
 };
 
 export default function FishSpots() {
-  const { isAdmin } = useAuth();
+  const { user } = useAuth();
   const city = useLocation();
   const searchParams = new URLSearchParams(city.search);
   const wantedRegion = searchParams.get("search") || "varna";
@@ -147,12 +147,12 @@ export default function FishSpots() {
 
       {wantedRegion && <ChoiceContainer wantedCity={wantedRegion} />}
 
-      {isAdmin && (
+      {user?.isAdmin && (
         <>
           <section className={`flex justify-center ${formOpen ? "" : "mb-10"}`}>
             <button
               type="button"
-              className="px-6 py-3.5 text-base font-medium text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="rounded-lg bg-blue-700 px-6 py-3.5 text-center text-base font-medium text-white hover:bg-blue-800 focus:ring-blue-300 focus:outline-none dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               onClick={() => setFormOpen((isOpen) => !isOpen)}
             >
               {formOpen ? "Скрий формата" : "Създай място"}
@@ -171,18 +171,18 @@ export default function FishSpots() {
           )}
 
           {emptyFilter && (
-            <p className="text-2xl font-medium text-center mb-4">
+            <p className="mb-4 text-center text-2xl font-medium">
               Няма намерени резултати.
             </p>
           )}
 
-          <section className="flex justify-center mb-2">
+          <section className="mb-2 flex justify-center">
             <button
               type="button"
-              className={`px-6 py-3.5 text-base font-medium text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ${
+              className={`rounded-lg bg-blue-700 px-6 py-3.5 text-center text-base font-medium text-white hover:bg-blue-800 focus:ring-blue-300 focus:outline-none dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ${
                 favSpots && favSpots.length
                   ? ""
-                  : "disabled:opacity-75 cursor-not-allowed"
+                  : "cursor-not-allowed disabled:opacity-75"
               }`}
               onClick={() =>
                 setShowFavSpots((currVisibility) => !currVisibility)
@@ -194,7 +194,7 @@ export default function FishSpots() {
           </section>
 
           {!emptyFilter && (
-            <div className="max-w-7xl mx-auto grid grid-cols-4 max-[1000px]:grid-cols-3 max-md:grid-cols-2 max-[460px]:grid-cols-1 gap-12 py-8 px-4 bg-slate-400 rounded-xl mb-16">
+            <div className="mx-auto mb-16 grid max-w-7xl grid-cols-4 gap-12 rounded-xl bg-slate-400 px-4 py-8 max-[1000px]:grid-cols-3 max-[460px]:grid-cols-1 max-md:grid-cols-2">
               {decideSpotsToShow()?.map((obj) => (
                 <FishPlacesCard
                   key={obj.id}
@@ -218,7 +218,7 @@ export default function FishSpots() {
         </>
       )}
 
-      {isAdmin && (
+      {user?.isAdmin && (
         <DeleteAsker
           isOpen={deleteModal.isOpened}
           deleteOnAgree={deleteOnAgree}

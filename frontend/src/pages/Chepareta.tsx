@@ -8,10 +8,10 @@ import { baseUrl, latinToBgChepareType } from "@/util/constants";
 import type { ChepareSeller } from "@/types/chepare";
 
 export default function Chepareta() {
-  const { isLogged, isAdmin } = useAuth();
+  const { user } = useAuth();
 
   const [allChepareta, setAllChepareta] = useState<ChepareSeller[] | null>(
-    null
+    null,
   );
   const [isLoading, setIsLoading] = useState(true);
 
@@ -53,12 +53,12 @@ export default function Chepareta() {
 
   return (
     <main className="py-6">
-      {isLogged && isAdmin && (
+      {user?.isAdmin && (
         <>
           <section className={`flex justify-center ${formOpen ? "" : "mb-10"}`}>
             <button
               type="button"
-              className="px-6 py-3.5 text-base font-medium text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="rounded-lg bg-blue-700 px-6 py-3.5 text-center text-base font-medium text-white hover:bg-blue-800 focus:ring-blue-300 focus:outline-none dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               onClick={() => setFormOpen((isOpen) => !isOpen)}
             >
               {formOpen ? "Скрий формата" : "Създай продавач"}
@@ -79,24 +79,24 @@ export default function Chepareta() {
           <h2 className="text-center text-3xl font-medium uppercase">
             Майстори:
           </h2>
-          <div className="max-w-7xl mx-auto grid grid-cols-4 max-[1000px]:grid-cols-3 max-md:grid-cols-2 max-[460px]:grid-cols-1 gap-12 py-8 px-4 bg-slate-400 rounded-xl mb-16">
+          <div className="mx-auto mb-16 grid max-w-7xl grid-cols-4 gap-12 rounded-xl bg-slate-400 px-4 py-8 max-[1000px]:grid-cols-3 max-[460px]:grid-cols-1 max-md:grid-cols-2">
             {allChepareta?.map((seller) => (
               <section
                 key={seller.name}
-                className="text-center rounded p-3 bg-cyan-950 shadow-2xl shadow-black"
+                className="rounded bg-cyan-950 p-3 text-center shadow-2xl shadow-black"
               >
-                <h3 className="font-medium mb-2 text-white">{seller.name}</h3>
+                <h3 className="mb-2 font-medium text-white">{seller.name}</h3>
                 <div>
                   <img
-                    className="w-full aspect-[4/3] rounded-t"
+                    className="aspect-4/3 w-full rounded-t"
                     src={seller.images[0].image}
                     alt="Чепаре"
                     loading="lazy"
                   />
                 </div>
                 <section
-                  className={`bg-white py-2 max-h-[200px] px-1 ${
-                    isLogged ? "" : "rounded-b"
+                  className={`max-h-50 bg-white px-1 py-2 ${
+                    user ? "" : "rounded-b"
                   }`}
                 >
                   <section className="flex flex-col items-center gap-1">
@@ -105,7 +105,7 @@ export default function Chepareta() {
                   </section>
                   <section className="flex justify-center">
                     <Link
-                      className="bg-cyan-600 py-2 px-4 rounded-xl font-medium hover:bg-cyan-800"
+                      className="rounded-xl bg-cyan-600 px-4 py-2 font-medium hover:bg-cyan-800"
                       to={`/chepareta/${seller.name
                         .replace(" ", "-")
                         .toLowerCase()}`}

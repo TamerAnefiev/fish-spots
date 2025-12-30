@@ -39,9 +39,9 @@ export default function FishPlacesCard({
     return favSpotsString ? JSON.parse(favSpotsString) : [];
   }
 
-  const { isAdmin } = useAuth();
+  const { user } = useAuth();
   const [isSpotFavorite, setIsSpotFavorite] = useState(() =>
-    isAddedToFavorites(spotId)
+    isAddedToFavorites(spotId),
   );
   const [isFavButtonHovered, setIsFavButtonHovered] = useState(false);
 
@@ -84,31 +84,31 @@ export default function FishPlacesCard({
   }
 
   return (
-    <section className="text-center rounded p-3 bg-cyan-950 shadow-2xl shadow-black">
-      <h3 className="font-medium mb-2 text-white">{bgPlaceName}</h3>
+    <section className="rounded bg-cyan-950 p-3 text-center shadow-2xl shadow-black">
+      <h3 className="mb-2 font-medium text-white">{bgPlaceName}</h3>
       <div>
         <img
-          className="w-full aspect-[4/3] rounded-t"
+          className="aspect-4/3 w-full rounded-t"
           src={image}
           alt={bgPlaceName}
           loading="lazy"
         />
       </div>
       <section
-        className={`bg-white py-2 max-h-[200px] px-1 ${
-          isAdmin ? "" : "rounded-b"
+        className={`max-h-50 bg-white px-1 py-2 ${
+          user?.isAdmin ? "" : "rounded-b"
         }`}
       >
         <p className="mb-3">{description.slice(0, 50)}...</p>
         <section className="flex justify-center gap-4">
           <Link
-            className="bg-cyan-600 py-2 px-4 rounded-xl font-medium hover:bg-cyan-800"
+            className="rounded-xl bg-cyan-600 px-4 py-2 font-medium hover:bg-cyan-800"
             to={`/place/${region}/${place.toLowerCase()}`}
           >
             Детайли
           </Link>
           <span
-            className="flex items-center bg-cyan-600 rounded-xl py-2 px-4 text-lg cursor-pointer"
+            className="flex cursor-pointer items-center rounded-xl bg-cyan-600 px-4 py-2 text-lg"
             onClick={addOrRemoveFromFavorites}
             onMouseEnter={() => setIsFavButtonHovered(true)}
             onMouseLeave={() => setIsFavButtonHovered(false)}
@@ -117,10 +117,10 @@ export default function FishPlacesCard({
           </span>
         </section>
       </section>
-      {isAdmin && (
-        <section className="bg-slate-400 py-2 rounded-b">
+      {user?.isAdmin && (
+        <section className="rounded-b bg-slate-400 py-2">
           <button
-            className="bg-cyan-600 py-2 px-4 rounded-xl font-medium hover:bg-cyan-800"
+            className="rounded-xl bg-cyan-600 px-4 py-2 font-medium hover:bg-cyan-800"
             onClick={openDeleteModal}
           >
             <i className="fa-solid fa-trash"></i>

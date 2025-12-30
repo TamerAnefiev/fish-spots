@@ -31,7 +31,7 @@ export default function FishSpotForm({
   showForm,
   addNewPlaceHandler,
 }: FishSpotFormProps) {
-  const { userId } = useAuth();
+  const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState(initialFormData);
   const [formErrors, setFormErrors] = useState<string[]>([]);
@@ -39,12 +39,12 @@ export default function FishSpotForm({
   const handleFieldChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
+    >,
   ) => {
     const { name, type } = e.target;
     const value =
       type === "file"
-        ? (e.target as HTMLInputElement).files?.[0] ?? null
+        ? ((e.target as HTMLInputElement).files?.[0] ?? null)
         : e.target.value;
 
     setFormData((oldFormData) => {
@@ -68,7 +68,7 @@ export default function FishSpotForm({
       if (!value) continue;
       buildFormData.append(attribute, value);
     }
-    buildFormData.append("creator", userId);
+    buildFormData.append("creator", String(user?.id));
 
     setIsLoading(true);
     createFishPlace(buildFormData)
@@ -99,13 +99,13 @@ export default function FishSpotForm({
   return (
     <form
       onSubmit={handleFormSubmit}
-      className={`max-w-lg mx-auto mb-10 p-4 rounded-xl flex-col items-center gap-4 bg-gradient-to-b from-slate-700 to-gray-900 ${
+      className={`mx-auto mb-10 max-w-lg flex-col items-center gap-4 rounded-xl bg-linear-to-b from-slate-700 to-gray-900 p-4 ${
         showForm ? "flex" : "hidden"
       }`}
       encType="multipart/form-data"
     >
       <section className="w-10/12">
-        <span className="dark:text-white dark:font-medium">
+        <span className="dark:font-medium dark:text-white">
           Място на латиница:
         </span>
         <input
@@ -120,7 +120,7 @@ export default function FishSpotForm({
       </section>
 
       <section className="w-10/12">
-        <span className="dark:text-white dark:font-medium">
+        <span className="dark:font-medium dark:text-white">
           Място на български:
         </span>
         <input
@@ -135,7 +135,7 @@ export default function FishSpotForm({
       </section>
 
       <section className="w-10/12">
-        <span className="dark:text-white dark:font-medium">
+        <span className="dark:font-medium dark:text-white">
           Описание на пейзажа:
         </span>
         <textarea
@@ -152,9 +152,9 @@ export default function FishSpotForm({
         />
       </section>
 
-      <div className="w-10/12 flex flex-wrap justify-between max-md:flex-col max-md:gap-4">
+      <div className="flex w-10/12 flex-wrap justify-between max-md:flex-col max-md:gap-4">
         <section className="w-5/12 max-md:w-full">
-          <span className="dark:text-white dark:font-medium">
+          <span className="dark:font-medium dark:text-white">
             Географска дължина:
           </span>
           <input
@@ -169,7 +169,7 @@ export default function FishSpotForm({
         </section>
 
         <section className="w-5/12 max-md:w-full">
-          <span className="dark:text-white dark:font-medium">
+          <span className="dark:font-medium dark:text-white">
             Географска ширина:
           </span>
           <input
@@ -185,7 +185,7 @@ export default function FishSpotForm({
       </div>
 
       <section className="w-10/12">
-        <span className="dark:text-white dark:font-medium">Регион:</span>
+        <span className="dark:font-medium dark:text-white">Регион:</span>
         <select
           className="block w-full rounded p-1.5 text-stone-950 outline-none"
           name="region"
@@ -199,7 +199,7 @@ export default function FishSpotForm({
       </section>
 
       <section className="w-10/12">
-        <span className="dark:text-white dark:font-medium">
+        <span className="dark:font-medium dark:text-white">
           Риболовно място в региона:
         </span>
         <select
@@ -224,13 +224,13 @@ export default function FishSpotForm({
                   ]
                 }
               </option>
-            )
+            ),
           )}
         </select>
       </section>
 
       <section className="w-10/12">
-        <span className="dark:text-white dark:font-medium">
+        <span className="dark:font-medium dark:text-white">
           Макс. Допустим Вятър(m/s):
         </span>
         <input
@@ -246,7 +246,7 @@ export default function FishSpotForm({
       </section>
 
       <section className="w-10/12">
-        <span className="dark:text-white dark:font-medium">
+        <span className="dark:font-medium dark:text-white">
           Лоши посоки на вятъра:
         </span>
         <input
@@ -263,7 +263,7 @@ export default function FishSpotForm({
       <section>
         <span className="dark:text-gray-400">Избери снимка</span>
         <input
-          className="block p-1 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+          className="block cursor-pointer rounded-lg border border-gray-300 bg-gray-50 p-1 text-sm text-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400"
           type="file"
           name="image"
           accept=".jpg, .jpeg, .png, .webp"
@@ -273,8 +273,8 @@ export default function FishSpotForm({
 
       {isLoading && <Spinner />}
 
-      <div className="text-center mt-4">
-        <button className="px-4 py-2 text-black font-medium rounded-lg bg-gradient-to-r from-green-200 via-green-400 to-green-500 hover:from-green-300 hover:via-green-500 hover:to-green-600">
+      <div className="mt-4 text-center">
+        <button className="rounded-lg bg-linear-to-r from-green-200 via-green-400 to-green-500 px-4 py-2 font-medium text-black hover:from-green-300 hover:via-green-500 hover:to-green-600">
           Create!
         </button>
       </div>
