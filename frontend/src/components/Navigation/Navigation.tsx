@@ -1,9 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Fish } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import Hamburger from "./Hamburger";
-import { logoutUser } from "@/services/users";
-import { ThemeDropdown } from "./ThemeDropdown";
+import { UserDropdown } from "./UserDropdown";
 
 const staticNavigationLinks = {
   cssClasses: "hover:text-stone-300 duration-300",
@@ -29,8 +29,7 @@ const staticNavigationLinks = {
 
 const Navigation = () => {
   const [hamburgerOpen, setHamburgerOpen] = useState(false);
-  const { isLogged, resetUser } = useAuth();
-  const navigate = useNavigate();
+  const { user } = useAuth();
 
   const handleHamburgerMenu = () => {
     // used for when the hamburger menu is clicked
@@ -69,120 +68,44 @@ const Navigation = () => {
     return () => document.removeEventListener("click", handleClickOutside);
   }, [hamburgerOpen]);
 
-  const handleLogOut = async () => {
-    try {
-      const response = await logoutUser();
-
-      if (response.status === 200) {
-        resetUser();
-        navigate("/", { replace: true });
-      }
-    } catch {
-      console.error("failed to log out.");
-    }
-  };
-
   return (
-    <header className="sticky top-0 z-50 flex w-full bg-linear-to-r from-blue-500 to-cyan-500 p-6 text-2xl font-medium text-white md:justify-center">
-      <nav className="click-outside flex max-w-screen-2xl max-md:w-full max-md:items-center md:w-5/6 md:justify-between">
+    <header className="bg-background sticky top-0 z-50 flex w-full p-3 text-2xl font-medium md:justify-center">
+      <nav className="click-outside flex max-w-screen-2xl items-center max-md:w-full md:w-5/6 md:justify-between">
         <Hamburger
           isOpen={hamburgerOpen}
           handleHamburgerMenu={handleHamburgerMenu}
         />
 
-        <section className="max-md:w-full max-md:text-center">
+        <section className="flex items-center">
           <Link
             onClick={handleCloseHamburgerMenu}
-            className={staticNavigationLinks.cssClasses}
+            className="hover:bg-muted flex h-8 w-8 items-center justify-center rounded-lg p-2 duration-200"
             to="/"
           >
-            Риболовни места
+            <Fish color="#1f61f9" className="h-4 w-4" />
           </Link>
+
+          <ul className="flex max-md:hidden">
+            {staticNavigationLinks.links.map((link) => {
+              if (!user && link.hideWhenNotLogged) return null;
+
+              return (
+                <li key={link.text}>
+                  <Link
+                    to={link.linkTo}
+                    className="hover:bg-muted flex h-8 rounded-lg p-2 text-sm font-medium duration-200"
+                  >
+                    {link.text}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
         </section>
 
-        <ul className="flex flex-wrap gap-12 max-md:hidden">
-          {staticNavigationLinks.links.map((link) => {
-            if (!isLogged && link.hideWhenNotLogged) return null;
-
-            return (
-              <li key={link.text}>
-                <Link
-                  className={staticNavigationLinks.cssClasses}
-                  to={link.linkTo}
-                >
-                  {link.text}
-                </Link>
-              </li>
-            );
-          })}
-          {!isLogged && (
-            <li>
-              <Link
-                className={`cursor-pointer ${staticNavigationLinks.cssClasses}`}
-                to="/login"
-              >
-                Вход
-              </Link>
-            </li>
-          )}
-          {isLogged && (
-            <li
-              key="logout"
-              className={`cursor-pointer ${staticNavigationLinks.cssClasses}`}
-              onClick={handleLogOut}
-            >
-              Изход
-            </li>
-          )}
-
-          <li>
-            <ThemeDropdown />
-          </li>
-        </ul>
-
-        <ul
-          className={`fixed top-20 bottom-0 left-0 z-50 flex w-60 flex-col gap-5 overflow-auto rounded-r-lg bg-slate-900 p-4 text-2xl font-medium text-white transition-opacity duration-300 ease-in-out ${
-            hamburgerOpen ? "opacity-100" : "pointer-events-none opacity-0"
-          }`}
-        >
-          {staticNavigationLinks.links.map((link) => {
-            if (!isLogged && link.hideWhenNotLogged) return null;
-
-            return (
-              <li
-                key={link.text}
-                className="border-b-2 border-red-900"
-                onClick={handleCloseHamburgerMenu}
-              >
-                <Link
-                  className={staticNavigationLinks.cssClasses}
-                  to={link.linkTo}
-                >
-                  {link.text}
-                </Link>
-              </li>
-            );
-          })}
-          {!isLogged && (
-            <li>
-              <Link
-                className={`cursor-pointer ${staticNavigationLinks.cssClasses}`}
-                to="/login"
-              >
-                Вход
-              </Link>
-            </li>
-          )}
-          {isLogged && (
-            <li
-              key="logout-mobile"
-              className={`cursor-pointer ${staticNavigationLinks.cssClasses}`}
-              onClick={handleLogOut}
-            >
-              Изход
-            </li>
-          )}
-        </ul>
+        <section className="flex">
+          <UserDropdown />
+        </section>
       </nav>
     </header>
   );
