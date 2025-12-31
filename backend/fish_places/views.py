@@ -110,7 +110,7 @@ class PlaceDetailsView(APIView):
 def get_number_of_region_places(request):
     results = Place.objects.values("region").annotate(count=Count("id"))
 
-    data = [
+    regions_data = [
         {
             "region": item["region"],
             "regionBgName": region_settings.region_map.get(item["region"].lower(), item["region"]),
@@ -118,4 +118,9 @@ def get_number_of_region_places(request):
         }
         for item in results
     ]
-    return Response(data)
+    total_places = sum(item["count"] for item in results)
+    
+    return Response({
+        "total": total_places,
+        "regions": regions_data
+    })
