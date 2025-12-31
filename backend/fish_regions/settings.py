@@ -1,5 +1,9 @@
 from .models import VarnaRegion, BurgasRegion
 
+region_map = {
+    "varna": "Варна",
+    "burgas": "Бургас"
+}
 
 regions = {
     "varna": {"model": VarnaRegion, "places": ["Shabla", "Kranevo", "Varna"]},
