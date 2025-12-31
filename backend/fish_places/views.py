@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import DestroyAPIView
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.decorators import api_view
+from django.db.models import Count
 
 from .models import Place
 from .serializers import PlaceSerializer, CreatePlaceSerializer
@@ -102,3 +104,18 @@ class PlaceDetailsView(APIView):
 
         serializer = PlaceSerializer(instance=place, context={"request": request})
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(["GET"])
+def get_number_of_region_places(request):
+    results = Place.objects.values("region").annotate(count=Count("id"))
+
+    data = [
+        {
+            "region": item["region"],
+            "regionBgName": region_settings.region_map.get(item["region"].lower(), item["region"]),
+            "count": item["count"]
+        }
+        for item in results
+    ]
+    return Response(data)
