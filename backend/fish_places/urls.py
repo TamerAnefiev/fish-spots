@@ -12,4 +12,5 @@ urlpatterns = (
         views.PlaceDetailsView.as_view(),
         name="place_details",
     ),
+    path("number-of-places/", views.get_number_of_region_places, name="get_number_of_region_places"),
 )
