@@ -15,3 +15,14 @@ export type FishSpot = {
   place: string;
   region: string;
 };
+
+type RegionPlaceCount = {
+  region: string;
+  regionBgName: string;
+  count: number;
+};
+
+export type RegionPlaces = {
+  total: number;
+  regions: RegionPlaceCount[];
+};
