@@ -1,9 +1,13 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
+from django.shortcuts import get_object_or_404
 
 from base.mixins import AuthorizedMixin
+from users.backends import CustomAuthentication
+from users.permissions import IsSuperUser
 
 from .serializers import (
     SellerSerializer,
@@ -31,6 +35,25 @@ def get_seller_chepareta(request, seller):
 
         serializer = SellerSerializer(seller, context={"request": request})
         return Response(serializer.data)
+
+
+@api_view(["DELETE"])
+@authentication_classes([CustomAuthentication])
+@permission_classes([IsSuperUser])
+def delete_chepare_seller(request, pk):
+    seller = get_object_or_404(Seller, pk=pk)
+
+    seller_name = seller.name
+    images_count = seller.images.count()
+
+    seller.delete()
+
+    return Response(
+        {
+        "detail": f"Продавачът {seller_name} и неговите {images_count}бр. снимки бяха изтрити."
+        },
+        status=status.HTTP_200_OK
+    )
 
 
 class CreateChepareta(AuthorizedMixin, APIView):
