@@ -14,7 +14,7 @@ class SellerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Seller
-        fields = ["name", "contact", "images"]
+        fields = ["name", "contact", "images", "id"]
 
 
 class CreateSellerSerializer(serializers.ModelSerializer):
