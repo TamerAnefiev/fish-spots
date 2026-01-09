@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.shortcuts import get_object_or_404
+from django.db import transaction
 
 from base.mixins import AuthorizedMixin
 from users.backends import CustomAuthentication
@@ -58,38 +59,36 @@ def delete_chepare_seller(request, pk):
 
 class CreateChepareta(AuthorizedMixin, APIView):
     parser_classes = [MultiPartParser, FormParser]
+    permission_classes = [IsSuperUser]
 
     def post(self, request, *args, **kwargs):
-        if not request.user.is_superuser:
-            return Response({"detail": "Unauthorized."}, status=401)
+        try:
+            with transaction.atomic():
+                seller_serializer = CreateSellerSerializer(data=request.data)
+                seller_serializer.is_valid(raise_exception=True)
+                seller = seller_serializer.save()
 
-        seller_serializer = CreateSellerSerializer(
-            data={
-                "name": request.data.get("name"),
-                "contact": request.data.get("contact"),
-            }
-        )
-        request.data.pop("name")
-        request.data.pop("contact")
-        if seller_serializer.is_valid():
-            seller = seller_serializer.save()
+                chepare_types = request.data.getlist("chepareType")
+                images = request.data.getlist("image")
+                if not images or not chepare_types or len(chepare_types) != len(images):
+                    return Response(
+                        {"detail": "Броят на снимките и типовете не съвпада."},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
 
-            chepare_types, images = request.data.getlist(
-                "chepareType"
-            ), request.data.getlist("image")
+                images_data = [
+                    {"chepare_type": ch_type, "image": image, "seller": seller.pk}
+                    for ch_type, image in zip(chepare_types, images)
+                ]
 
-            images_data = [
-                {"chepare_type": ch_type, "image": image, "seller": seller.pk}
-                for ch_type, image in zip(chepare_types, images)
-            ]
-
-            image_serializer = ChepareImagesSerializer(data=images_data, many=True)
-            if image_serializer.is_valid():
+                image_serializer = ChepareImagesSerializer(data=images_data, many=True)
+                image_serializer.is_valid(raise_exception=True)
                 image_serializer.save()
+
                 seller_data = SellerSerializer(seller, context={"request": request})
                 return Response(seller_data.data, status=201)
-            else:
-                seller.delete()  # Rollback seller creation if image creation fails
-                return Response(image_serializer.errors, status=400)
-
-        return Response(seller_serializer.errors, status=400)
+        except Exception as e:
+            return Response(
+                getattr(e, "detail", {"detail": str(e)}),
+                status=status.HTTP_400_BAD_REQUEST
+            )
