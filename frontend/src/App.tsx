@@ -73,7 +73,7 @@ function App() {
         <Footer />
         <CookieConsent />
 
-        <Toaster position="bottom-right" richColors />
+        <Toaster position="bottom-right" richColors expand />
       </div>
     </>
   );
