@@ -1,12 +1,12 @@
-const baseUrl = "http://127.0.0.1:8000";
-const websiteName = "Fish Spots";
+export const baseUrl = "http://127.0.0.1:8000";
+export const websiteName = "Fish Spots";
 
-const fishSpotAreasInRegion = {
+export const fishSpotAreasInRegion = {
   varna: ["shabla", "kranevo", "varna"],
   burgas: ["burgas", "chernomorets", "primorsko"],
 };
 
-const bulgarianToLatinCities = {
+export const bulgarianToLatinCities = {
   Шабла: "shabla",
   Кранево: "kranevo",
   Варна: "varna",
@@ -15,7 +15,7 @@ const bulgarianToLatinCities = {
   Приморско: "primorsko",
 } as const;
 
-const latinToBulgarianCities = {
+export const latinToBulgarianCities = {
   shabla: "Шабла",
   kranevo: "Кранево",
   varna: "Варна",
@@ -24,18 +24,18 @@ const latinToBulgarianCities = {
   primorsko: "Приморско",
 };
 
-const latinToBgChepareType = {
+export const latinToBgChepareType = {
   safrid: "сафрид",
   chernokop: "чернокоп",
   karagioz: "карагьоз",
   palamud: "паламуд",
 };
 
-export {
-  baseUrl,
-  websiteName,
-  fishSpotAreasInRegion,
-  bulgarianToLatinCities,
-  latinToBulgarianCities,
-  latinToBgChepareType,
-};
+export const MAX_FILE_SIZE_MB = 1;
+export const MAX_FILE_SIZE = MAX_FILE_SIZE_MB * 1024 * 1024;
+export const ALLOWED_IMG_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+];
