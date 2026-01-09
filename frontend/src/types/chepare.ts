@@ -8,11 +8,6 @@ type ChepareImageCreation = ChepareBase & {
   image: File;
 };
 
-export type ChepareImage = ChepareBase & {
-  image: string;
-  seller: number;
-};
-
 export type ChepareCreation = {
   contact: string;
   name: string;
@@ -20,11 +15,18 @@ export type ChepareCreation = {
 };
 
 export type ChepareSeller = {
+  id: number;
   contact: string;
   name: string;
-  images: ChepareImage[];
+  images: Partial<Record<ChepareType, string[]>>;
+  thumbnail: string;
+  imagesCount: number;
 };
 
 export type ChepareTypes = ChepareBase & {
   text: string;
+};
+
+export type DeleteResponse = {
+  detail: string;
 };
