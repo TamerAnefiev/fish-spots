@@ -26,7 +26,7 @@ export function CheparetaList() {
   return (
     <div className="grid grid-cols-4 gap-4 rounded-xl px-4 py-6 max-[1000px]:grid-cols-3 max-[460px]:grid-cols-1 max-md:grid-cols-2">
       {data.map((seller) => (
-        <ChepareCard key={seller.name} seller={seller} />
+        <ChepareCard key={seller.id} seller={seller} />
       ))}
     </div>
   );
