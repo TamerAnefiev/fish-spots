@@ -35,8 +35,8 @@ export function ChepareCard({ seller }: ChepareCardProps) {
   const { deleteSeller } = useCheparetaMutations();
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
-  const handleDeleteSeller = (sellerId: number) => {
-    deleteSeller.mutate(sellerId, {
+  const handleDeleteSeller = (slug: string) => {
+    deleteSeller.mutate(slug, {
       onSuccess: (data: DeleteResponse) => {
         toast.success(data.detail);
       },
@@ -51,7 +51,9 @@ export function ChepareCard({ seller }: ChepareCardProps) {
       <CardHeader className="flex p-3 text-center">
         <CardTitle className="flex items-center justify-center gap-1 text-lg font-medium">
           <UserRound size={12} />
-          <h4>{seller.name}</h4>
+          <h4>
+            {seller.firstName} {seller.lastName}
+          </h4>
         </CardTitle>
       </CardHeader>
 
@@ -59,7 +61,7 @@ export function ChepareCard({ seller }: ChepareCardProps) {
         <img
           className="h-full w-full object-cover transition-transform hover:scale-105"
           src={seller.thumbnail}
-          alt={`Чепаре от ${seller.name}`}
+          alt={`Чепаре от ${seller.firstName} ${seller.lastName}`}
           loading="lazy"
         />
       </div>
@@ -98,20 +100,16 @@ export function ChepareCard({ seller }: ChepareCardProps) {
       </CardContent>
       <CardFooter className="flex justify-center gap-1 px-4 pt-0 pb-4">
         <Button asChild>
-          <Link
-            to={`/chepareta/${seller.name.replace(/\s+/g, "-").toLowerCase()}`}
-          >
-            Детайли
-          </Link>
+          <Link to={`/chepareta/${seller.slug}`}>Детайли</Link>
         </Button>
         {user?.isAdmin && (
           <AlertOnOperation
-            description={`Изтривайки ${seller.name}, също така ще се изтрият и ${seller.imagesCount} снимки/а.`}
+            description={`Изтривайки ${seller.firstName} ${seller.lastName}, също така ще се изтрият и ${seller.imagesCount} снимки/а.`}
             cancelBtnText="Откажи"
             confirmBtnText="Изтрий"
             open={isAlertOpen}
             onOpenChange={setIsAlertOpen}
-            onConfirmExit={() => handleDeleteSeller(seller.id)}
+            onConfirmExit={() => handleDeleteSeller(seller.slug)}
           >
             <Button size="icon" variant="destructive">
               <Trash2 />
