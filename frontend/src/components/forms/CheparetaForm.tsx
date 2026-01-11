@@ -14,7 +14,8 @@ import { toast } from "sonner";
 import { Spinner } from "@/components/ui/spinner";
 
 const initialFormData: ChepareCreation = {
-  name: "",
+  firstName: "",
+  lastName: "",
   contact: "",
   images: [],
 };
@@ -28,7 +29,7 @@ const chepareTypes: ChepareTypes[] = [
 
 type CheparetaFormProps = {
   onDirtyChange: (isDirty: boolean) => void;
-  onSubmit: (data: ChepareCreation) => void;
+  onSubmit: (data: FormData) => void;
   isPending: boolean;
 };
 
@@ -39,13 +40,15 @@ export default function CheparetaForm({
 }: CheparetaFormProps) {
   const [formData, setFormData] = useState<ChepareCreation>(initialFormData);
   const isInvalid =
-    formData.name.trim() === "" ||
+    formData.firstName.trim() === "" ||
+    formData.lastName.trim() === "" ||
     formData.contact.trim() === "" ||
     formData.images.length === 0;
 
   useEffect(() => {
     const dirty =
-      formData.name.trim() !== "" ||
+      formData.firstName.trim() !== "" ||
+      formData.lastName.trim() !== "" ||
       formData.contact.trim() !== "" ||
       formData.images.length > 0;
     onDirtyChange(dirty);
@@ -100,14 +103,22 @@ export default function CheparetaForm({
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit(formData);
+    const body = new FormData();
+    body.append("first_name", formData.firstName);
+    body.append("last_name", formData.contact);
+    body.append("contact", formData.contact);
+    formData.images.forEach(({ chepareType, image }) => {
+      body.append("chepareType", chepareType);
+      body.append("image", image);
+    });
+    onSubmit(body);
   };
 
   return (
     <form onSubmit={handleFormSubmit} encType="multipart/form-data">
       <section className="mb-2">
-        <Label htmlFor="name" className="relative">
-          Име на продавача
+        <Label htmlFor="firstName" className="relative">
+          Име
           <Asterisk
             size={12}
             className="absolute -top-0.5 -right-3"
@@ -115,12 +126,32 @@ export default function CheparetaForm({
           />
         </Label>
         <Input
-          id="name"
+          id="firstName"
           type="text"
-          name="name"
+          name="firstName"
           maxLength={50}
           placeholder="Име"
-          value={formData.name}
+          value={formData.firstName}
+          onChange={handleTextFieldChange}
+        />
+      </section>
+
+      <section className="mb-2">
+        <Label htmlFor="lastName" className="relative">
+          Фамилия
+          <Asterisk
+            size={12}
+            className="absolute -top-0.5 -right-3"
+            color="#cc0000"
+          />
+        </Label>
+        <Input
+          id="lastName"
+          type="text"
+          name="lastName"
+          maxLength={50}
+          placeholder="Фамилия"
+          value={formData.lastName}
           onChange={handleTextFieldChange}
         />
       </section>
