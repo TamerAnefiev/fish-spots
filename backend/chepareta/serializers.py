@@ -34,7 +34,8 @@ class SellerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Seller
-        fields = ["id", "name", "contact", "images", "thumbnail", "images_count"]
+        fields = ["id", "first_name", "last_name", "slug", "contact", "images", "thumbnail", "images_count"]
+        read_only_fields = ["slug"]
 
     def get_thumbnail(self, obj):
         # try getting safrid thumbnail
@@ -69,4 +70,4 @@ class SellerSerializer(serializers.ModelSerializer):
 class CreateSellerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Seller
-        fields = ["name", "contact"]
+        fields = ["first_name", "last_name", "contact"]
