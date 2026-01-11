@@ -8,7 +8,6 @@ import { toast } from "sonner";
 import CheparetaForm from "@/components/forms/CheparetaForm";
 import { AlertOnOperation } from "./AlertOnOperation";
 import { useDiscardChanges } from "@/hooks/use-discard-changes";
-import type { ChepareCreation } from "@/types/chepare";
 import { useCheparetaMutations } from "@/hooks/use-chepareta-mutations";
 
 type CreateChepareSellerDialogProps = {
@@ -30,8 +29,8 @@ export function CreateChepareSellerDialog({
 
   const { createSeller } = useCheparetaMutations();
 
-  const onSubmit = (newSeller: ChepareCreation) => {
-    createSeller.mutate(newSeller, {
+  const onSubmit = (formData: FormData) => {
+    createSeller.mutate(formData, {
       onSuccess: () => {
         toast.success("Майсторът е добавен успешно!");
         onOpenChange(false);
