@@ -10,14 +10,17 @@ type ChepareImageCreation = ChepareBase & {
 
 export type ChepareCreation = {
   contact: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   images: ChepareImageCreation[];
 };
 
 export type ChepareSeller = {
   id: number;
   contact: string;
-  name: string;
+  firstName: string;
+  lastName: string;
+  slug: string;
   images: Partial<Record<ChepareType, string[]>>;
   thumbnail: string;
   imagesCount: number;
