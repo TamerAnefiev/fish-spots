@@ -6,14 +6,14 @@ import type { ChepareSeller, ChepareType } from "@/types/chepare";
 
 export default function CheparetaDetails() {
   const navigate = useNavigate();
-  const { seller } = useParams();
+  const { sellerSlug } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [chepareDetails, setChepareDetails] = useState<ChepareSeller | null>(
-    null
+    null,
   );
 
   useEffect(() => {
-    fetch(`${baseUrl}/chepareta/details/${seller}/`)
+    fetch(`${baseUrl}/chepareta/details/${sellerSlug}/`)
       .then((response) => {
         if (response.status === 400) {
           navigate("/404");
@@ -32,12 +32,12 @@ export default function CheparetaDetails() {
     if (!chepareDetails) return [];
 
     const uniqueTypes: ChepareType[] = [];
-    for (const obj of chepareDetails.images) {
-      if (uniqueTypes.includes(obj.chepareType)) {
+    for (const chepareType in Object.keys(chepareDetails.images)) {
+      if (uniqueTypes.includes(chepareType as ChepareType)) {
         continue;
       }
 
-      uniqueTypes.push(obj.chepareType);
+      uniqueTypes.push(chepareType as ChepareType);
     }
     return uniqueTypes;
   };
@@ -45,7 +45,7 @@ export default function CheparetaDetails() {
   const getChepareImagesByType = (type: ChepareType) => {
     if (!chepareDetails) return [];
 
-    return chepareDetails.images.filter((obj) => obj.chepareType === type);
+    return chepareDetails.images?.[type] || [];
   };
 
   if (isLoading) {
@@ -68,18 +68,18 @@ export default function CheparetaDetails() {
 
   return (
     <main>
-      <article className="max-w-6xl mx-auto py-10 text-white mt-6 bg-cyan-950 p-6 rounded">
-        <h1 className="text-center text-2xl font-medium uppercase mb-10">
-          {chepareDetails.name}
+      <article className="mx-auto mt-6 max-w-6xl rounded bg-cyan-950 p-6 py-10 text-white">
+        <h1 className="mb-10 text-center text-2xl font-medium uppercase">
+          {chepareDetails.firstName} {chepareDetails.lastName}
         </h1>
 
         {getSellerChepareTypes().map((chepareType) => (
           <div key={chepareType}>
-            <h3 className="text-center font-medium uppercase text-2xl">
+            <h3 className="text-center text-2xl font-medium uppercase">
               {latinToBgChepareType[chepareType]} -{" "}
               {getChepareImagesByType(chepareType).length} снимки
             </h3>
-            <div className="h-[650px] mx-auto max-w-3xl mb-8">
+            <div className="mx-auto mb-8 h-[650px] max-w-3xl">
               {/* TODO: ADD CAROUSEL */}
               {/* <Carousel pauseOnHover indicators={false}>
                 {getChepareImagesByType(chepareType).map((img) => (
@@ -96,7 +96,7 @@ export default function CheparetaDetails() {
           </div>
         ))}
         <section className="flex flex-col items-center justify-center gap-5">
-          <span className="text-2xl font-medium text-center">Контакти:</span>
+          <span className="text-center text-2xl font-medium">Контакти:</span>
           <p className="text-2xl font-medium">{chepareDetails.contact}</p>
         </section>
       </article>
