@@ -1,4 +1,4 @@
-import type { ChepareCreation, DeleteResponse } from "@/types/chepare";
+import type { DeleteResponse } from "@/types/chepare";
 import { baseUrl } from "@/util/constants";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -6,18 +6,10 @@ export function useCheparetaMutations() {
   const queryClient = useQueryClient();
 
   const createSeller = useMutation({
-    mutationFn: async (newSeller: ChepareCreation) => {
-      const body = new FormData();
-      body.append("name", newSeller.name);
-      body.append("contact", newSeller.contact);
-      newSeller.images.forEach(({ chepareType, image }) => {
-        body.append("chepareType", chepareType);
-        body.append("image", image);
-      });
-
+    mutationFn: async (formData: FormData) => {
       const fetchOptions: RequestInit = {
         method: "POST",
-        body,
+        body: formData,
         credentials: "include",
       };
       const response = await fetch(
@@ -41,14 +33,14 @@ export function useCheparetaMutations() {
     },
   });
 
-  const deleteSeller = useMutation<DeleteResponse, Error, number>({
-    mutationFn: async (sellerId: number) => {
+  const deleteSeller = useMutation<DeleteResponse, Error, string>({
+    mutationFn: async (slug: string) => {
       const fetchOptions: RequestInit = {
         method: "DELETE",
         credentials: "include",
       };
       const response = await fetch(
-        `${baseUrl}/chepareta/delete/${sellerId}/`,
+        `${baseUrl}/chepareta/delete/${slug}/`,
         fetchOptions,
       );
       if (!response.ok) {
