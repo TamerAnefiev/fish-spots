@@ -64,7 +64,7 @@ function App() {
             }
           />
           <Route path="/chepareta" element={<Chepareta />} />
-          <Route path="/chepareta/:seller" element={<CheparetaDetails />} />
+          <Route path="/chepareta/:sellerSlug" element={<CheparetaDetails />} />
           <Route path="/changelog" element={<Changelog />} />
 
           <Route path="*" element={<NotFound />} />
