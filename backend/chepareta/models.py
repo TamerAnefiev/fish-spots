@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 from django.conf import settings
 
 import os
@@ -7,8 +8,21 @@ from .utils import image_directory_distributor
 
 
 class Seller(models.Model):
-    name = models.CharField(max_length=100, null=False, blank=False)
-    contact = models.CharField(max_length=200, null=False, blank=False)
+    first_name = models.CharField(max_length=30, null=False, blank=False)
+    last_name = models.CharField(max_length=30, null=False, blank=False)
+    contact = models.CharField(max_length=15, null=False, blank=False)
+    slug = models.SlugField(max_length=100, unique=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            if not self.pk:
+                super().save(*args, **kwargs)
+                
+            self.slug = slugify(f"{self.first_name}-{self.last_name}-{self.pk}")
+            super().save(update_fields=["slug"])
+            return
+        
+        super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
         for img in self.images.all():
@@ -17,7 +31,7 @@ class Seller(models.Model):
         super().delete(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        return f"{self.first_name} {self.last_name}"
 
 
 class ChepareImages(models.Model):
@@ -50,4 +64,4 @@ class ChepareImages(models.Model):
         super().delete(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.seller.name} - {self.chepare_type}"
+        return f"{self.seller.first_name} - {self.chepare_type}"
