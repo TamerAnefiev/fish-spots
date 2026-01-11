@@ -20,38 +20,30 @@ from .models import Seller
 
 @api_view(["GET"])
 def get_all_chepareta(request):
-    if request.method == "GET":
-        sellers = Seller.objects.all()
-        serializer = SellerSerializer(sellers, many=True, context={"request": request})
-        return Response(serializer.data)
+    sellers = Seller.objects.all()
+    serializer = SellerSerializer(sellers, many=True, context={"request": request})
+    return Response(serializer.data)
 
 
 @api_view(["GET"])
-def get_seller_chepareta(request, seller):
-    if request.method == "GET":
-        seller = seller.replace("-", " ")
-        seller = Seller.objects.filter(name__iexact=seller).first()
-        if not seller:
-            return Response({"msg": "not found."}, status=400)
-
-        serializer = SellerSerializer(seller, context={"request": request})
-        return Response(serializer.data)
+def get_seller_chepareta(request, slug):
+    seller = get_object_or_404(Seller, slug=slug)
+    serializer = SellerSerializer(seller, context={"request": request})
+    return Response(serializer.data)
 
 
 @api_view(["DELETE"])
 @authentication_classes([CustomAuthentication])
 @permission_classes([IsSuperUser])
-def delete_chepare_seller(request, pk):
-    seller = get_object_or_404(Seller, pk=pk)
-
-    seller_name = seller.name
+def delete_chepare_seller(request, slug):
+    seller = get_object_or_404(Seller, slug=slug)
     images_count = seller.images.count()
 
     seller.delete()
 
     return Response(
         {
-        "detail": f"Продавачът {seller_name} и неговите {images_count}бр. снимки бяха изтрити."
+        "detail": f"Продавачът {str(seller)} и неговите {images_count}бр. снимки бяха изтрити."
         },
         status=status.HTTP_200_OK
     )
