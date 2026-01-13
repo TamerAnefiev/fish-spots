@@ -19,6 +19,7 @@ import AuthGuard from "@/guards/AuthGuard";
 import { cityRoutes } from "@/util/routes";
 import CookieConsent from "@/components/Cookies/Consent";
 import AuthLoader from "@/components/AuthLoader/AuthLoader";
+import { Toaster } from "@/components/ui/sonner";
 
 function App() {
   const { loading } = useAuth();
@@ -63,7 +64,7 @@ function App() {
             }
           />
           <Route path="/chepareta" element={<Chepareta />} />
-          <Route path="/chepareta/:seller" element={<CheparetaDetails />} />
+          <Route path="/chepareta/:sellerSlug" element={<CheparetaDetails />} />
           <Route path="/changelog" element={<Changelog />} />
 
           <Route path="*" element={<NotFound />} />
@@ -71,6 +72,8 @@ function App() {
 
         <Footer />
         <CookieConsent />
+
+        <Toaster position="bottom-right" richColors expand />
       </div>
     </>
   );

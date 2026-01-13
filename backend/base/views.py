@@ -49,9 +49,9 @@ class MyTokenObtainPairView(TokenObtainPairView):
             response.data = {}
             response.data["username"] = payload.get("username", "")
             response.data["id"] = payload.get("user_id", "")
-            response.data["admin"] = False
+            response.data["isAdmin"] = False
             if response.data["username"]:
-                response.data["admin"] = (
+                response.data["isAdmin"] = (
                     UserModel.objects.filter(username=response.data["username"])
                     .first()
                     .is_superuser
@@ -100,6 +100,6 @@ class CheckAuthenticationView(AuthorizedMixin, APIView):
             {
                 "user": request.user.username,
                 "id": request.user.pk,
-                "admin": request.user.is_superuser,
+                "isAdmin": request.user.is_superuser,
             }
         )
