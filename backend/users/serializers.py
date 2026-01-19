@@ -28,3 +28,11 @@ class EditUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = ("username", "email", "password")
+
+
+class UserMeSerializer(serializers.ModelSerializer):
+    isAdmin = serializers.BooleanField(source="is_superuser")
+
+    class Meta:
+        model = UserModel
+        fields = ("id", "email", "first_name", "last_name", "picture", "isAdmin")
