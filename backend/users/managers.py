@@ -4,10 +4,15 @@ from django.utils.translation import gettext_lazy as _
 
 class CustomUserManager(BaseUserManager):
 
-    def create_user(self, username, email, password, **extra_fields):
+    def create_user(self, username, email, password=None, **extra_fields):
         email = self.normalize_email(email)
         user = self.model(username=username, email=email, **extra_fields)
-        user.set_password(password)
+
+        if password:
+            user.set_password(password)
+        else:
+            user.set_unusable_password()
+
         user.save()
         return user
 
