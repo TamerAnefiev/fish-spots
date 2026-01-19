@@ -1,13 +1,18 @@
-from rest_framework.decorators import api_view, authentication_classes
-from rest_framework.views import APIView
+from rest_framework.decorators import (
+    api_view,
+    authentication_classes,
+    permission_classes,
+)
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
+
 from django.db.models import Sum, Min
 from django.utils.timezone import now
+
 from .models import CatchHistory
 from .serializers import CatchHistorySerializer
-from base.mixins import AuthorizedMixin
 from fish_regions.settings import english_to_bulgarian_months
 from users.backends import CustomAuthentication
 
@@ -17,6 +22,7 @@ import calendar
 
 @api_view(["GET"])
 @authentication_classes([CustomAuthentication])
+@permission_classes([IsAuthenticated])
 def get_oldest_catch_year(request):
     oldest_date_obj = CatchHistory.objects.filter(user=request.user).aggregate(
         oldest_date=Min("date")
@@ -32,6 +38,7 @@ def get_oldest_catch_year(request):
 
 @api_view(["GET"])
 @authentication_classes([CustomAuthentication])
+@permission_classes([IsAuthenticated])
 def catch_stats(request):
     # e.g: catch_history/?page_size=10&page=1&year=2025&month=5&ordering=-date
 
@@ -115,19 +122,21 @@ def catch_stats(request):
     )
 
 
-class CreateCatchHistory(AuthorizedMixin, APIView):
-    def post(self, request):
-        serializer = CatchHistorySerializer(data=request.data)
+@api_view(["POST"])
+@authentication_classes([CustomAuthentication])
+@permission_classes([IsAuthenticated])
+def create_catch_history(request):
+    serializer = CatchHistorySerializer(data=request.data)
+    if not serializer.is_valid():
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        serializer.save(user=request.user)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    serializer.save(user=request.user)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(["DELETE"])
 @authentication_classes([CustomAuthentication])
+@permission_classes([IsAuthenticated])
 def delete_catch_history(request, pk):
     try:
         # check if the user is the author and fetch the object owned by the user
