@@ -2,6 +2,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import type { ChepareSeller } from "@/types/chepare";
 import { baseUrl } from "@/util/constants";
 import { ChepareCard } from "./ChepareCard";
+import { cheparetaKeys } from "@/lib/query-keys";
 
 const getAllChepareta = async (): Promise<ChepareSeller[]> => {
   const response = await fetch(`${baseUrl}/chepareta/`);
@@ -11,7 +12,7 @@ const getAllChepareta = async (): Promise<ChepareSeller[]> => {
 
 export function CheparetaList() {
   const { data } = useSuspenseQuery({
-    queryKey: ["getChepareta"],
+    queryKey: cheparetaKeys.all,
     queryFn: getAllChepareta,
   });
 
