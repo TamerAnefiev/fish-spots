@@ -14,17 +14,17 @@ const AuthGuard = ({
   children,
   privateRoute = false,
   guestOnly = false,
-  redirectTo,
+  redirectTo = "/",
   replace = true,
 }: PrivateRouteProps) => {
-  const { user, loading } = useAuth();
+  const { user, isLoading } = useAuth();
 
-  if (guestOnly && user && !loading) {
-    return <Navigate to={redirectTo || "/"} replace={replace} />;
+  if (guestOnly && user && !isLoading) {
+    return <Navigate to={redirectTo} replace={replace} />;
   }
 
-  if (privateRoute && !user && !loading) {
-    return <Navigate to={redirectTo || "/login"} replace={replace} />;
+  if (privateRoute && !user && !isLoading) {
+    return <Navigate to={redirectTo} replace={replace} />;
   }
 
   return children;
