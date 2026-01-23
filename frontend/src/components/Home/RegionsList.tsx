@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import RegionCard from "./RegionCard";
 import type { RegionPlaces } from "@/types/fishspots";
 import { baseUrl } from "@/util/constants";
-import RegionCard from "./RegionCard";
+import { regionsKeys } from "@/lib/query-keys";
 
 const getRegionPlaces = async (): Promise<RegionPlaces> => {
   const response = await fetch(`${baseUrl}/places/number-of-places/`);
@@ -12,14 +13,16 @@ const getRegionPlaces = async (): Promise<RegionPlaces> => {
 
 export function RegionsList() {
   const { data } = useSuspenseQuery({
-    queryKey: ["regionPlaces"],
+    queryKey: regionsKeys.regionPlaces,
     queryFn: getRegionPlaces,
   });
 
   return (
     <section className="py-16">
       <h2 className="relative mb-8 px-4 text-center text-4xl font-semibold max-md:text-2xl">
-        Информация за {data.total} места!
+        {data.total > 0
+          ? `Информация за {data.total} места!`
+          : "Все още няма добавени места."}
         <div className="absolute top-[115%] left-1/2 h-0.5 w-60 -translate-x-1/2 bg-cyan-600 max-md:w-40" />
       </h2>
 
