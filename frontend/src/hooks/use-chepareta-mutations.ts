@@ -1,6 +1,7 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { cheparetaKeys } from "@/lib/query-keys";
 import type { DeleteResponse } from "@/types/chepare";
 import { baseUrl } from "@/util/constants";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useCheparetaMutations() {
   const queryClient = useQueryClient();
@@ -29,7 +30,7 @@ export function useCheparetaMutations() {
       return response.json();
     },
     onSettled: () => {
-      return queryClient.invalidateQueries({ queryKey: ["getChepareta"] });
+      return queryClient.invalidateQueries({ queryKey: cheparetaKeys.all });
     },
   });
 
@@ -53,7 +54,7 @@ export function useCheparetaMutations() {
       return response.json();
     },
     onSettled: () => {
-      return queryClient.invalidateQueries({ queryKey: ["getChepareta"] });
+      return queryClient.invalidateQueries({ queryKey: cheparetaKeys.all });
     },
   });
 
