@@ -1,94 +1,86 @@
-import { useEffect, useState, createContext, useContext } from "react";
-import { useMutation, type UseMutationResult } from "@tanstack/react-query";
+import { createContext, useContext, useCallback, useMemo } from "react";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  type UseMutationResult,
+} from "@tanstack/react-query";
+import axios from "axios";
 import { baseUrl } from "@/util/constants";
-import type { User, LoginCredentials } from "@/types/user";
+import type { User } from "@/types/user";
+import api from "@/lib/api";
+import { authKeys } from "@/lib/query-keys";
 
 type AuthData = {
   user: User | null;
-  loading: boolean;
-  loginMutation: UseMutationResult<User, Error, LoginCredentials>;
-  logoutMutation: UseMutationResult<Response, Error, void, unknown>;
+  isLoading: boolean;
+  loginMutation: UseMutationResult<User, Error, { code: string }>;
+  logoutMutation: UseMutationResult<void, Error, void>;
+  resetUser: () => void;
 };
 
 const AuthContext = createContext<AuthData | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    const authorize = async () => {
+  const { data: user, isLoading } = useQuery<User | null>({
+    queryKey: authKeys.authUser,
+    queryFn: async () => {
       try {
-        const options: RequestInit = {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        };
-        const response = await fetch(`${baseUrl}/api/authorize/`, options);
-        const data: User = await response.json();
-
-        if (response.status === 200) {
-          setUser(data);
-        } else if (response.status === 401) {
-          setUser(null);
+        const response = await api.get<User>("/profile/me/");
+        return response.data;
+      } catch (error) {
+        if (
+          axios.isAxiosError(error) &&
+          (error.response?.status === 401 || error.response?.status === 400)
+        ) {
+          return null;
         }
-      } catch {
-        console.error("authentication error");
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    authorize();
-  }, []);
+        throw error;
+      }
+    },
+    retry: false, // skip retry on 401
+    staleTime: Infinity,
+  });
 
   const loginMutation = useMutation({
-    mutationFn: async ({ username, password }: LoginCredentials) => {
-      const options: RequestInit = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-        credentials: "include",
-      };
-      const response = await fetch(`${baseUrl}/api/token/`, options);
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => {});
-        throw new Error(errorData.detail || "Login failed");
-      }
-
-      return response.json();
+    mutationFn: async ({ code }: { code: string }) => {
+      const response = await api.post<User>(`${baseUrl}/profile/auth/login/`, {
+        code,
+      });
+      return response.data;
     },
     onSuccess: (userData: User) => {
-      setUser(userData);
+      queryClient.setQueryData(authKeys.authUser, userData);
     },
   });
 
   const logoutMutation = useMutation({
     mutationFn: async () => {
-      const response = await fetch(`${baseUrl}/api/logout/`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      });
-      if (!response.ok) throw new Error("Logout failed");
-      return response;
+      await api.post("/profile/logout/");
     },
     onSuccess: () => {
-      setUser(null);
+      queryClient.setQueryData(authKeys.authUser, null);
     },
     onError: (error) => console.error("Logout error:", error),
   });
 
-  const contextData = {
-    user,
-    loading,
-    loginMutation,
-    logoutMutation,
-  };
+  const resetUser = useCallback(() => {
+    queryClient.setQueryData(authKeys.authUser, null);
+  }, [queryClient]);
+
+  const contextData = useMemo(
+    () => ({
+      user: user ?? null,
+      isLoading,
+      loginMutation,
+      logoutMutation,
+      resetUser,
+    }),
+    [user, isLoading, loginMutation, logoutMutation, resetUser],
+  );
 
   return (
     <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>
