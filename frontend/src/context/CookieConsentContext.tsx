@@ -7,7 +7,7 @@ type CookieConsentData = {
 };
 
 const CookieConsentContext = createContext<CookieConsentData | undefined>(
-  undefined
+  undefined,
 );
 
 export const CookieConsentProvider = ({
@@ -71,7 +71,7 @@ export const useCookieConsent = () => {
   const context = useContext(CookieConsentContext);
   if (context === undefined) {
     throw new Error(
-      "useCookieConsent must be used within a CookieConsentProvider"
+      "useCookieConsent must be used within a CookieConsentProvider",
     );
   }
 

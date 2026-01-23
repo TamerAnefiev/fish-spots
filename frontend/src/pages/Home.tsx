@@ -40,7 +40,7 @@ const Home = () => {
       <RegionsSection />
 
       <section className="flex flex-col items-center justify-center pb-16">
-        <h2 className="relative mb-8 px-4 text-center text-4xl max-md:text-2xl">
+        <h2 className="relative mb-8 px-4 text-center text-4xl font-medium max-md:text-2xl">
           Чепарета от известни майстори!
           <div className="absolute top-[115%] left-2/4 h-0.5 w-60 -translate-x-2/4 -translate-y-1/2 bg-cyan-600 max-md:w-40" />
         </h2>

@@ -44,11 +44,11 @@ REST_FRAMEWORK = {
         # this is for global authentication, some views dont need authentication
         # 'users.backends.CustomAuthentication',
     ),
-    'DEFAULT_RENDERER_CLASSES': (
-        'djangorestframework_camel_case.render.CamelCaseJSONRenderer',
+    "DEFAULT_RENDERER_CLASSES": (
+        "djangorestframework_camel_case.render.CamelCaseJSONRenderer",
     ),
-    'DEFAULT_PARSER_CLASSES': (
-        'djangorestframework_camel_case.parser.CamelCaseJSONParser',
+    "DEFAULT_PARSER_CLASSES": (
+        "djangorestframework_camel_case.parser.CamelCaseJSONParser",
     ),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 9,
@@ -86,6 +86,9 @@ SIMPLE_JWT = {
     "TOKEN_BLACKLIST_SERIALIZER": "rest_framework_simplejwt.serializers.TokenBlacklistSerializer",
     "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
+    # custom
+    "ACCESS_TOKEN_NAME": "access",
+    "REFRESH_TOKEN_NAME": "refresh",
 }
 
 MIDDLEWARE = [
@@ -180,10 +183,14 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
     "http://localhost:5173",
-    "http://localhost:8000"
+    "http://localhost:8000",
 ]
 
-CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:5173", "http://localhost:5173", "http://localhost:8000"]
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:5173",
+    "http://localhost:5173",
+    "http://localhost:8000",
+]
 
 AUTH_USER_MODEL = "users.CustomUser"
 
@@ -212,6 +219,9 @@ CACHES = {
         "LOCATION": "weather_cache",
     }
 }
+
+GOOGLE_CLIENT_ID = CONFIG["GOOGLE_CLIENT_ID"]
+GOOGLE_CLIENT_SECRET = CONFIG["GOOGLE_CLIENT_SECRET"]
 
 
 """

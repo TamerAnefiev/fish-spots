@@ -6,7 +6,6 @@ import City from "@/pages/City";
 import Weather from "@/pages/Weather";
 import FishSpots from "@/pages/FishSpots";
 import SuggestedSpots from "@/pages/SuggestedSpots";
-import Login from "@/pages/Login";
 import FishSpotDetails from "@/pages/FishSpotDetails";
 import PrivacyPolicy from "@/pages/Policy";
 import CatchHistory from "@/pages/CatchHistory";
@@ -22,9 +21,9 @@ import AuthLoader from "@/components/AuthLoader/AuthLoader";
 import { Toaster } from "@/components/ui/sonner";
 
 function App() {
-  const { loading } = useAuth();
+  const { isLoading } = useAuth();
 
-  if (loading) {
+  if (isLoading) {
     return <AuthLoader />;
   }
 
@@ -43,14 +42,6 @@ function App() {
             element={<SuggestedSpots />}
           />
           <Route
-            path="/login"
-            element={
-              <AuthGuard redirectTo="/" guestOnly>
-                <Login />
-              </AuthGuard>
-            }
-          />
-          <Route
             path="/place/:region/:spotName"
             element={<FishSpotDetails />}
           />
@@ -58,7 +49,7 @@ function App() {
           <Route
             path="/catch-history"
             element={
-              <AuthGuard redirectTo="/login" privateRoute>
+              <AuthGuard privateRoute>
                 <CatchHistory />
               </AuthGuard>
             }

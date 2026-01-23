@@ -1,6 +1,8 @@
 export const baseUrl = "http://127.0.0.1:8000";
 export const websiteName = "Fish Spots";
 export const DOMAIN = "fishspots.eu";
+export const GOOGLE_CLIENT_ID =
+  "175237139452-fuebos05lsnn2vt8fqg75hcpqt0p8t4v.apps.googleusercontent.com";
 
 export const fishSpotAreasInRegion = {
   varna: ["shabla", "kranevo", "varna"],

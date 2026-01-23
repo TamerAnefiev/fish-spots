@@ -1,10 +1,8 @@
-export type LoginCredentials = {
-  username: string;
-  password: string;
-};
-
 export type User = {
   id: number;
-  username: string;
+  email: string;
+  firstName: string | null;
+  lastName: string | null;
+  picture: string;
   isAdmin: boolean;
 };

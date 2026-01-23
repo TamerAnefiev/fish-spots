@@ -1,29 +1,16 @@
 from rest_framework_simplejwt.authentication import JWTAuthentication
-
-from rest_framework.exceptions import AuthenticationFailed, PermissionDenied
-from rest_framework.authentication import CSRFCheck
-
-
-# def enforce_csrf(request):
-#     check = CSRFCheck(request)
-#     reason = check.process_view(request, None, (), {})
-#     if reason:
-#         raise PermissionDenied("CSRF Failed: %s" % reason)
+from django.conf import settings
 
 
 class CustomAuthentication(JWTAuthentication):
     def authenticate(self, request):
-        header = self.get_header(request)
+        access_token = request.COOKIES.get(settings.SIMPLE_JWT.get("ACCESS_TOKEN_NAME"))
+        # let the permission classes decide if the user can do things
+        if not access_token:
+            return None
 
-        if header is None:
-            raw_token = request.COOKIES.get("access_token") or None
-
-        else:
-            raw_token = self.get_raw_token(header)
-
-        if raw_token is None:
-            raise AuthenticationFailed("Token is expired or it doesn't exist.")
-
-        validated_token = self.get_validated_token(raw_token)
-        # enforce_csrf(request)
+        # 1. run checks and validate the token
+        # 2. if token is malformed or expired, we return 401
+        # 3. if everything passes fine, we do another layer of checks with permission classes
+        validated_token = self.get_validated_token(access_token)
         return self.get_user(validated_token), validated_token

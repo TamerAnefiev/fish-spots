@@ -1,4 +1,8 @@
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.decorators import (
+    api_view,
+    authentication_classes,
+    permission_classes,
+)
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -6,10 +10,8 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 
-from base.mixins import AuthorizedMixin
 from users.backends import CustomAuthentication
 from users.permissions import IsSuperUser
-
 from .serializers import (
     SellerSerializer,
     CreateSellerSerializer,
@@ -43,14 +45,15 @@ def delete_chepare_seller(request, slug):
 
     return Response(
         {
-        "detail": f"Продавачът {str(seller)} и неговите {images_count}бр. снимки бяха изтрити."
+            "detail": f"Продавачът {str(seller)} и неговите {images_count}бр. снимки бяха изтрити."
         },
-        status=status.HTTP_200_OK
+        status=status.HTTP_200_OK,
     )
 
 
-class CreateChepareta(AuthorizedMixin, APIView):
+class CreateChepareta(APIView):
     parser_classes = [MultiPartParser, FormParser]
+    authentication_classes = [CustomAuthentication]
     permission_classes = [IsSuperUser]
 
     def post(self, request, *args, **kwargs):
@@ -65,7 +68,7 @@ class CreateChepareta(AuthorizedMixin, APIView):
                 if not images or not chepare_types or len(chepare_types) != len(images):
                     return Response(
                         {"detail": "Броят на снимките и типовете не съвпада."},
-                        status=status.HTTP_400_BAD_REQUEST
+                        status=status.HTTP_400_BAD_REQUEST,
                     )
 
                 images_data = [
@@ -82,5 +85,5 @@ class CreateChepareta(AuthorizedMixin, APIView):
         except Exception as e:
             return Response(
                 getattr(e, "detail", {"detail": str(e)}),
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_400_BAD_REQUEST,
             )

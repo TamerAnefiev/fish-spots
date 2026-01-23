@@ -6,10 +6,12 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import api_view
 from django.db.models import Count
 
+from users.backends import CustomAuthentication
+from users.permissions import IsSuperUser
+
 from .models import Place
 from .serializers import PlaceSerializer, CreatePlaceSerializer
 from .utils import decide_to_show_spot
-from base.mixins import AuthorizedMixin
 from fish_regions.views import WeatherDataView
 from fish_regions import settings as region_settings
 from fish_places.models import Place
@@ -34,13 +36,12 @@ class PlacesView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class CreatePlaceView(AuthorizedMixin, APIView):
+class CreatePlaceView(APIView):
     parser_classes = [MultiPartParser, FormParser]
+    authentication_classes = [CustomAuthentication]
+    permission_classes = [IsSuperUser]
 
     def post(self, request, *args, **kwargs):
-        if not request.user.is_superuser:
-            return Response({"detail": "Unauthorized."}, status=401)
-
         serializer = CreatePlaceSerializer(
             data=request.data, context={"request": request}
         )
@@ -50,13 +51,10 @@ class CreatePlaceView(AuthorizedMixin, APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class DeletePlaceView(AuthorizedMixin, DestroyAPIView):
+class DeletePlaceView(DestroyAPIView):
     queryset = Place.objects.all()
-
-    def delete(self, request, *args, **kwargs):
-        if not request.user.is_superuser:
-            return Response({"detail": "Unauthorized."}, status=401)
-        return super().destroy(request, *args, **kwargs)
+    authentication_classes = [CustomAuthentication]
+    permission_classes = [IsSuperUser]
 
 
 class SuggestedSpots(APIView):
@@ -113,14 +111,13 @@ def get_number_of_region_places(request):
     regions_data = [
         {
             "region": item["region"],
-            "regionBgName": region_settings.region_map.get(item["region"].lower(), item["region"]),
-            "count": item["count"]
+            "regionBgName": region_settings.region_map.get(
+                item["region"].lower(), item["region"]
+            ),
+            "count": item["count"],
         }
         for item in results
     ]
     total_places = sum(item["count"] for item in results)
-    
-    return Response({
-        "total": total_places,
-        "regions": regions_data
-    })
+
+    return Response({"total": total_places, "regions": regions_data})
