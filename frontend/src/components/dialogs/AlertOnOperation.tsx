@@ -11,13 +11,11 @@ import {
 } from "@/components/ui/alert-dialog";
 
 type AlertOnOperationProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  onConfirmExit: () => void;
   title?: string;
   description: string;
   cancelBtnText: string;
   confirmBtnText: string;
+  onConfirmExit: () => void;
   children?: React.ReactNode;
 };
 
@@ -26,13 +24,11 @@ export function AlertOnOperation({
   description,
   cancelBtnText,
   confirmBtnText,
-  open,
-  onOpenChange,
   onConfirmExit,
   children,
 }: AlertOnOperationProps) {
   return (
-    <AlertDialog open={open} onOpenChange={onOpenChange}>
+    <AlertDialog>
       {children && <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>}
       <AlertDialogContent>
         <AlertDialogHeader>
