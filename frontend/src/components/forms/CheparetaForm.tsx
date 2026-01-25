@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Asterisk, X } from "lucide-react";
 import { MAX_FILE_SIZE_MB } from "@/util/constants";
 import { validateAttachedImages } from "@/util/validateAttachedImage";
@@ -28,13 +28,11 @@ const chepareTypes: ChepareTypes[] = [
 ];
 
 type CheparetaFormProps = {
-  onDirtyChange: (isDirty: boolean) => void;
   onSubmit: (data: FormData) => void;
   isPending: boolean;
 };
 
 export default function CheparetaForm({
-  onDirtyChange,
   onSubmit,
   isPending,
 }: CheparetaFormProps) {
@@ -44,17 +42,6 @@ export default function CheparetaForm({
     formData.lastName.trim() === "" ||
     formData.contact.trim() === "" ||
     formData.images.length === 0;
-
-  useEffect(() => {
-    const dirty =
-      formData.firstName.trim() !== "" ||
-      formData.lastName.trim() !== "" ||
-      formData.contact.trim() !== "" ||
-      formData.images.length > 0;
-    onDirtyChange(dirty);
-
-    return () => onDirtyChange(false);
-  }, [formData, onDirtyChange]);
 
   const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
