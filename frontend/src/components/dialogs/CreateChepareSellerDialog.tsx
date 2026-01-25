@@ -6,8 +6,6 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import CheparetaForm from "@/components/forms/CheparetaForm";
-import { AlertOnOperation } from "./AlertOnOperation";
-import { useDiscardChanges } from "@/hooks/use-discard-changes";
 import { useCheparetaMutations } from "@/hooks/use-chepareta-mutations";
 
 type CreateChepareSellerDialogProps = {
@@ -19,14 +17,6 @@ export function CreateChepareSellerDialog({
   open,
   onOpenChange,
 }: CreateChepareSellerDialogProps) {
-  const {
-    setIsDirty,
-    showAlert,
-    setShowAlert,
-    handleCloseAttempt,
-    confirmExit,
-  } = useDiscardChanges(onOpenChange);
-
   const { createSeller } = useCheparetaMutations();
 
   const onSubmit = (formData: FormData) => {
@@ -43,19 +33,12 @@ export function CreateChepareSellerDialog({
 
   return (
     <>
-      <Dialog
-        open={open}
-        onOpenChange={(open) => {
-          if (!open) {
-            handleCloseAttempt();
-          }
-        }}
-      >
+      <Dialog open={open} onOpenChange={onOpenChange}>
         {/* https://www.radix-ui.com/primitives/docs/components/dialog#description */}
         <DialogContent
           aria-describedby={undefined}
-          onPointerDownOutside={handleCloseAttempt}
-          onEscapeKeyDown={handleCloseAttempt}
+          onPointerDownOutside={(e) => e.preventDefault()}
+          onEscapeKeyDown={(e) => e.preventDefault()}
         >
           <DialogHeader>
             <DialogTitle className="text-center">
@@ -64,23 +47,11 @@ export function CreateChepareSellerDialog({
           </DialogHeader>
 
           <CheparetaForm
-            onDirtyChange={setIsDirty}
             isPending={createSeller.isPending}
             onSubmit={onSubmit}
           />
         </DialogContent>
       </Dialog>
-
-      <AlertOnOperation
-        description={
-          "Имате незапазени промени. Ако затворите прозореца сега, всички данни ще бъдат изгубени."
-        }
-        cancelBtnText={"Остани"}
-        confirmBtnText={"Затвори"}
-        open={showAlert}
-        onOpenChange={setShowAlert}
-        onConfirmExit={confirmExit}
-      />
     </>
   );
 }
