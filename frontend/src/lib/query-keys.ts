@@ -7,5 +7,7 @@ export const regionsKeys = {
 };
 
 export const cheparetaKeys = {
-  all: ["allChepareta"],
+  all: ["allChepareta"] as const,
+  sellerDetails: (slug: string) =>
+    [...cheparetaKeys.all, "details", slug] as const,
 };

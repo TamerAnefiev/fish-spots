@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FishingHook, Trash2, UserRound, Image } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
@@ -33,7 +32,6 @@ type ChepareCardProps = {
 export function ChepareCard({ seller }: ChepareCardProps) {
   const { user } = useAuth();
   const { deleteSeller } = useCheparetaMutations();
-  const [isAlertOpen, setIsAlertOpen] = useState(false);
 
   const handleDeleteSeller = (slug: string) => {
     deleteSeller.mutate(slug, {
@@ -107,8 +105,6 @@ export function ChepareCard({ seller }: ChepareCardProps) {
             description={`Изтривайки ${seller.firstName} ${seller.lastName}, също така ще се изтрият и ${seller.imagesCount} снимки/а.`}
             cancelBtnText="Откажи"
             confirmBtnText="Изтрий"
-            open={isAlertOpen}
-            onOpenChange={setIsAlertOpen}
             onConfirmExit={() => handleDeleteSeller(seller.slug)}
           >
             <Button size="icon" variant="destructive">

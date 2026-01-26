@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { AlertOnOperation } from "../dialogs/AlertOnOperation";
 
 export function UserOptions() {
   const { user, logoutMutation, loginMutation } = useAuth();
@@ -81,12 +82,23 @@ export function UserOptions() {
           </DropdownMenuItem>
         )}
         {user && (
-          <DropdownMenuItem onClick={handleLogOut} className="cursor-pointer">
-            <span className="flex w-full items-center justify-between">
-              Изход
-              <LogOut className="mr-2 h-4 w-4" />
-            </span>
-          </DropdownMenuItem>
+          <AlertOnOperation
+            title="Сигурни ли сте, че искате да излезете?"
+            description="Ще трябва да се впишете отново, за да достъпите личните си данни."
+            cancelBtnText="Отказ"
+            confirmBtnText="Изход"
+            onConfirmExit={handleLogOut}
+          >
+            <DropdownMenuItem
+              onSelect={(e) => e.preventDefault()}
+              className="cursor-pointer"
+            >
+              <span className="flex w-full items-center justify-between">
+                Изход
+                <LogOut className="mr-2 h-4 w-4" />
+              </span>
+            </DropdownMenuItem>
+          </AlertOnOperation>
         )}
       </DropdownMenuGroup>
     </>
