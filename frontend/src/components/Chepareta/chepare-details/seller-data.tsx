@@ -1,7 +1,7 @@
 import axios from "axios";
-import { ImageIcon, Phone, User } from "lucide-react";
+import { ArrowLeft, ImageIcon, Phone, User } from "lucide-react";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import { CarouselRow } from "./carousel-row";
 import type { ChepareSeller, ChepareType } from "@/types/chepare";
 import { DOMAIN, latinToBgChepareType } from "@/util/constants";
@@ -38,6 +39,8 @@ export function SellerData() {
   const { sellerSlug } = useParams();
   if (!sellerSlug) throw new Error("NOT_FOUND");
 
+  const navigate = useNavigate();
+
   const { data } = useSuspenseQuery({
     queryKey: cheparetaKeys.sellerDetails(sellerSlug),
     queryFn: () => fetchSellerDetails(sellerSlug),
@@ -61,9 +64,22 @@ export function SellerData() {
 
       <main className="container mx-auto px-4 py-10">
         <Card className="mx-auto max-w-5xl shadow-lg">
-          <CardHeader className="pb-8 text-center">
-            <div className="bg-secondary mx-auto mb-4 flex size-12 items-center justify-center rounded-full">
-              <User className="h-8 w-8" />
+          <CardHeader className="relative pb-8 text-center">
+            <div className="mb-4 grid grid-cols-3 items-center">
+              <div className="text-left">
+                <Button
+                  variant={"secondary"}
+                  onClick={() => navigate("/chepareta")}
+                >
+                  <ArrowLeft />
+                </Button>
+              </div>
+              <div className="flex justify-center">
+                <div className="bg-secondary flex size-12 items-center justify-center rounded-full">
+                  <User className="size-8" />
+                </div>
+              </div>
+              <div className="invisible" aria-hidden="true" />
             </div>
             <CardTitle className="text-3xl font-bold tracking-wide uppercase">
               {fullName}
